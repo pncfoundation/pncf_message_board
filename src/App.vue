@@ -12,21 +12,27 @@
     <span class="spacer"></span>
 
     <div class="hstack" id="router-links">
-      <router-link to="/">Home</router-link>
+      <router-link to="/">Board</router-link>
       <router-link to="/about">About</router-link>
-      <router-link to="/board">Board</router-link>
-      <router-link to="/contact">Contact</router-link>
     </div>
   </nav>
+
   <router-view/>
+
+  <footer>
+    <h1>Foot</h1>
+  </footer>
 </template>
 
 <style>
+/*noinspection ALL*/
 #app {
   text-align: center;
 }
 
+/*--------------------------------------------------- HEADER & NAV ---------------------------------------------------*/
 nav {
+  width: 100dvw;
   background-color: var(--background-secondary);
   /*
   background-image: url("@/assets/photos/art_supplies.jpeg");
@@ -47,6 +53,10 @@ nav img {
   align-items: flex-start;
 }
 
+#title_text h1 {
+  font-size: 2rem;
+}
+
 #router-links {
   position: absolute;
   top: 50%;
@@ -63,10 +73,23 @@ nav img {
   border-radius: 10px;
 }
 
+/*noinspection ALL*/
 #router-links a.router-link-exact-active {
   background-color: var(--theme);
 }
 
+/*--------------------------------------------------- Footer & NAV ---------------------------------------------------*/
+footer {
+  width: 100dvw;
+  background-color: var(--background-secondary);
+  /*background-image: url("@/assets/photos/art_supplies.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-position-y: -8rem;
+  background-repeat: no-repeat;*/
+  padding: 1rem;
+  height: 7rem;
+}
+
 </style>
-<script setup lang="ts">
-</script>
+
