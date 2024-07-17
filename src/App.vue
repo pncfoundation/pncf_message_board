@@ -1,5 +1,5 @@
 <template>
-  <nav class="hstack">
+  <header class="hstack">
     <router-link to="/">
       <img src="@/assets/photos/pncf_logo.png" alt="PNCF Logo">
     </router-link>
@@ -10,14 +10,16 @@
     </div>
 
     <span class="spacer"></span>
+  </header>
 
-    <div class="hstack" id="router-links">
+  <div id="content">
+    <nav id="router-links">
       <router-link to="/">Board</router-link>
       <router-link to="/about">About</router-link>
-    </div>
-  </nav>
+    </nav>
 
-  <router-view/>
+    <router-view/>
+  </div>
 
   <footer>
     <h1>Foot</h1>
@@ -30,24 +32,7 @@
   text-align: center;
 }
 
-/*--------------------------------------------------- HEADER & NAV ---------------------------------------------------*/
-nav {
-  width: 100dvw;
-  background-color: var(--background-secondary);
-  /*
-  background-image: url("@/assets/photos/art_supplies.jpeg");
-  background-size: cover;
-  background-position: center;
-  background-position-y: -6rem;
-  background-repeat: no-repeat;*/
-  padding: 1rem;
-  height: 10rem;
-}
-
-nav img {
-  height: 8rem;
-}
-
+/*------------------------------------------------------ HEADER ------------------------------------------------------*/
 #title_text {
   gap: 0;
   align-items: flex-start;
@@ -57,28 +42,7 @@ nav img {
   font-size: 2rem;
 }
 
-#router-links {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 1rem;
-  gap: 1rem;
-}
-
-#router-links > a {
-  color: black;
-  background-color: var(--theme-secondary);
-  padding: 3px 10px;
-  border-radius: 10px;
-}
-
-/*noinspection ALL*/
-#router-links a.router-link-exact-active {
-  background-color: var(--theme);
-}
-
-/*--------------------------------------------------- Footer & NAV ---------------------------------------------------*/
+/*------------------------------------------------------- Footer -------------------------------------------------------*/
 footer {
   width: 100dvw;
   background-color: var(--background-secondary);
@@ -93,3 +57,5 @@ footer {
 
 </style>
 
+<script setup lang="ts">
+</script>
