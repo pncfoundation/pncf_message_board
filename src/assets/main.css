@@ -1,0 +1,27 @@
+/* Recreated from SwiftUI */
+.vstack {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Recreated from SwiftUI */
+.hstack {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+/* Setting classes to use theme colors (text and background) */
+.green { color: var(--theme); }
+.green-b { background: var(--theme); }
+.orange { color: var(--theme-secondary); }
+.orange-b { background: var(--theme-secondary); }

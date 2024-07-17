@@ -1,10 +1,7 @@
+
 <template>
   <main>
-    <h1>PNFC</h1>
+    <h1>PNCF Home</h1>
     <p>Hello</p>
   </main>
 </template>
-
-<script setup>
-
-</script>
