@@ -8,6 +8,10 @@ Two color modes: light and dark
 
 Needs accent colors of orange and green
 
+Get and use custom font "Love Ya Like a Sister"
+
+*Reddit* is used as inspiration given that it is a message board as well
+
 ## App Main Page
 
 ### Header
@@ -30,5 +34,7 @@ Needs accent colors of orange and green
 - Links for main site and login for moderators
 
 ## Board (Home) Page
-
-Contains message board for everyone to see
+- Contains message board for everyone to see
+- Fetches the 10 most recent messages from database
+- User can load more when they scroll down
+- Site checks for new messages every minute

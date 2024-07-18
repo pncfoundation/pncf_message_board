@@ -80,6 +80,8 @@ body {
 /* Main tag is found in each view */
 main {
     min-height: 100dvh;
+    background-color: navy;
+    flex-grow: 1;
 }
 
 header {
@@ -114,12 +116,12 @@ nav {
     width: clamp(10%, 350px, 90%);
     height: 100dvh;
     padding: 1rem;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     border-top: solid 2px var(--background-third);
     border-bottom: solid 2px var(--background-third);
 }
 
-nav > a {
+nav a {
     color: var(--text);
     padding: 3px 10px;
     text-decoration: none;
@@ -196,7 +198,7 @@ td:hover {
 
 /* svgs and images*/
 svg path {
-    fill: var(--theme);
+    fill: var(--text);
 }
 
 img {
