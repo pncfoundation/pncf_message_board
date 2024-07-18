@@ -114,7 +114,7 @@ nav {
     gap: 10px;
     background-color: var(--background-secondary);
     width: clamp(10%, 350px, 90%);
-    height: 100dvh;
+    height: calc(100dvh - 6rem); /* Full Screen Height - Height of Header */
     padding: 1rem;
     font-size: 1.5rem;
     border-top: solid 2px var(--background-third);
