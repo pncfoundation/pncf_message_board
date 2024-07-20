@@ -80,7 +80,7 @@ body {
 /* Main tag is found in each view */
 main {
     min-height: 100dvh;
-    background-color: navy;
+    background-color: var(--background-third);
     flex-grow: 1;
 }
 
@@ -113,8 +113,9 @@ nav {
     justify-self: flex-start;
     gap: 10px;
     background-color: var(--background-secondary);
-    width: clamp(10%, 350px, 90%);
-    height: calc(100dvh - 6rem); /* Full Screen Height - Height of Header */
+    width: clamp(13%, 380px, 90%);
+    min-height: calc(100dvh - 6rem); /* Full Screen Height - Height of Header */
+    height: fit-content;
     padding: 1rem;
     font-size: 1.5rem;
     border-top: solid 2px var(--background-third);
@@ -131,6 +132,12 @@ nav a {
 /*noinspection ALL*/
 nav a.router-link-exact-active {
     color: var(--theme);
+}
+
+nav a.router-link-exact-active::after {
+    content: "•";
+    font-weight: bold;
+    color: var(--theme-secondary);
 }
 
 /* Styling the scroll bar */

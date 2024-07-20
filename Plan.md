@@ -37,7 +37,7 @@ Get and use custom font "Love Ya Like a Sister"
 - Contains message board for everyone to see
 - Fetches the 10 most recent messages from database
 - User can load more when they scroll down
-- Site checks for new messages every minute
+- Site checks for new messages every 2 minutes
 
 
 # Moderators
@@ -47,3 +47,22 @@ Get and use custom font "Love Ya Like a Sister"
 - Accept/Reject 
 - Delete previous ones easily by clicking a trash icon
 - Click words to asterisk(*) them out
+
+## Configuring Promotions
+
+- Add/remove promotions
+- Choose layout for promotion area
+  - 1 Single
+  - 2 Side by Side
+  - 2 Stacked
+  - 3 > 1 Long and 2 Half Sized
+
+
+___
+# Possible Additions
+
+- Allow moderators to pin or highlight messages
+  - Either for set time or permanently on a seperate page
+- Allow Users to upVote
+  - Probably not since anyone can upvote unlimited times
+- Threads and replies?
