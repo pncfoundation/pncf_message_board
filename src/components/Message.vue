@@ -1,7 +1,9 @@
 <template>
   <div class="message">
     <div class="hstack message_head">
-      <p>{{ timeAgo(date) }}  •  {{ upvotes }} upvotes</p>
+      <p class="green">{{ timeAgo(date) }}</p>
+      <p>•</p>
+      <p class="orange">{{ upvotes }} upvotes</p>
     </div>
 
     <p class="message_content">{{ message }}</p>
