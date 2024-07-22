@@ -32,7 +32,7 @@
 
         <div class="hstack" id="promotion_grid_choices">
 
-          <input type="radio" class="grid_radios" id="grid_one" name="grid_choices_radio">
+          <input type="radio" class="grid_radios" id="grid_one" name="grid_choices_radio" checked>
           <label id="grid_label_one" for="grid_one">
             <span class="item1"></span>
           </label>
@@ -66,15 +66,36 @@
         <p id="select_grid_warning" hidden>Please select a grid layout.</p>
 
         <div id="media_grid_preview">
-          <span class="item1"></span>
-          <span class="item2"></span>
-          <span class="item3"></span>
+          <img src="@/assets/photos/gray.png" alt="Preview One" id="img_preview_one">
+          <img src="@/assets/photos/gray.png" alt="Preview One" id="img_preview_two">
+          <img src="@/assets/photos/gray.png" alt="Preview One" id="img_preview_three">
         </div>
 
         <div class="vstack" id="image_inputs">
-          <input type="file" accept="image/*" id="image_input_one">
-          <input type="file" accept="image/*" id="image_input_two">
-          <input type="file" accept="image/*" id="image_input_three">
+          <h3 id="image_option">
+            <input type="radio" name="image_option_radios" id="selectImages" checked>
+            <label for="selectImages">Select Images</label>
+            or
+            <input type="radio" name="image_option_radios" id="reUseImages">
+            <label for="reUseImages">Re-Use Images</label>
+          </h3>
+
+          <span class="spacer"></span>
+
+          <input type="file" accept="image/*" id="image_input_one" @change="previewImageOne">
+          <label for="image_input_one">
+            Select Image One
+          </label>
+
+          <input type="file" accept="image/*" id="image_input_two" @change="previewImageTwo">
+          <label for="image_input_one">
+            Select Image Two
+          </label>
+
+          <input type="file" accept="image/*" id="image_input_three" @change="previewImageThree">
+          <label for="image_input_one">
+            Select Image Three
+          </label>
         </div>
       </div>
     </section>
@@ -188,51 +209,106 @@ h2 {
   border-radius: 12px;
 }
 
-#media_grid_preview span {
-  border: solid 2px white;
+#media_grid_preview img {
+  object-fit: cover;
   border-radius: 5px;
-  background-color: var(--background-third);
+  border: solid 2px white;
+}
+
+
+
+#image_option label {
+  background: var(--background-third) !important;
+  transition: unset !important;
+}
+
+#image_option input:checked + label {
+  background: var(--theme) !important;
+}
+
+#image_inputs input {
+  display: none;
+}
+
+#image_inputs label {
+  background-color: var(--theme-secondary);
+  padding: 5px 8px;
+  border: 2px solid var(--text);
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 400ms;
+}
+
+#image_inputs label:hover {
+  scale: 1.03;
 }
 
 
 /*--------------------------- DETERMINING WHICH LAYOUT TO DISPLAY BASED ON WHICH WAS SELECTED & WHICH FILE INPUTS TO DISPLAY ---------------------------*/
 
-/* FIRST GRID OPTION */
+/*----------------------- FIRST GRID OPTION -----------------------*/
+/*noinspection ALL*/
 #promotion_controls:has(#promotion_grid_choices):has(input#grid_one:checked) ~ #media_preview_controls #image_inputs input:nth-child(2) {
   display: none;
 }
+/*noinspection ALL*/
 #promotion_controls:has(#promotion_grid_choices):has(input#grid_one:checked) ~ #media_preview_controls #image_inputs input:nth-child(3) {
   display: none;
 }
-#promotion_controls:has(#promotion_grid_choices):has(input#grid_one:checked) ~ #media_preview_controls #media_grid_preview span:nth-child(2) {
+/*noinspection ALL*/
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_one:checked) ~ #media_preview_controls #media_grid_preview img:nth-child(1) {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+/*noinspection ALL*/
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_one:checked) ~ #media_preview_controls #media_grid_preview img:nth-child(2) {
   display: none;
 }
-#promotion_controls:has(#promotion_grid_choices):has(input#grid_one:checked) ~ #media_preview_controls #media_grid_preview span:nth-child(3) {
+/*noinspection ALL*/
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_one:checked) ~ #media_preview_controls #media_grid_preview img:nth-child(3) {
   display: none;
 }
 
-/* SECOND GRID OPTION */
+/*---------------------- SECOND GRID OPTION ----------------------*/
+/*noinspection ALL*/
 #promotion_controls:has(#promotion_grid_choices):has(input#grid_two:checked) ~ #media_preview_controls #image_inputs input:nth-child(2) {
   display: none;
 }
-#promotion_controls:has(#promotion_grid_choices):has(input#grid_two:checked) ~ #media_preview_controls #media_grid_preview span:nth-child(3) {
+/*noinspection ALL*/
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_one:checked) ~ #media_preview_controls #media_grid_preview img:nth-child(1) {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+/*noinspection ALL*/
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_one:checked) ~ #media_preview_controls #media_grid_preview img:nth-child(1) {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+/*noinspection ALL*/
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_two:checked) ~ #media_preview_controls #media_grid_preview img:nth-child(3) {
   display: none;
 }
-/* THIRD GRID OPTION */
+
+/*------------------------- THIRD GRID OPTION -------------------------*/
+/*noinspection ALL*/
 #promotion_controls:has(#promotion_grid_choices):has(input#grid_three:checked) ~ #media_preview_controls #media_grid_preview {
   grid-template-rows: 1fr 1fr;
   grid-template-columns: 1fr 1fr;
 }
-#promotion_controls:has(#promotion_grid_choices):has(input#grid_three:checked) ~ #media_preview_controls #media_grid_preview span:nth-child(1) {
+/*noinspection ALL*/
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_three:checked) ~ #media_preview_controls #media_grid_preview img:nth-child(1) {
   grid-column: span 2;
 }
 
-/* FOURTH GRID OPTION */
+/*------------------------- FOURTH GRID OPTION -------------------------*/
+/*noinspection ALL*/
 #promotion_controls:has(#promotion_grid_choices):has(input#grid_four:checked) ~ #media_preview_controls #media_grid_preview {
   grid-template-rows: 1fr 1fr;
   grid-template-columns: 1fr 1fr;
 }
-#promotion_controls:has(#promotion_grid_choices):has(input#grid_four:checked) ~ #media_preview_controls #media_grid_preview span:nth-child(3) {
+/*noinspection ALL*/
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_four:checked) ~ #media_preview_controls #media_grid_preview img:nth-child(3) {
   grid-column: span 2;
 }
 
@@ -241,9 +317,42 @@ h2 {
 <script setup>
 //  Functions to preview images when placed in the file input
   const previewImageOne = () => {
-    const imageInput = document.getElementById("image_input_one");
-    if(imageInput.length > 0) {
+    let imageInput = document.getElementById("image_input_one");
+    let image = imageInput.files[0];
+    if(image) {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById("img_preview_one").setAttribute("src", e.target.result);
+      };
 
+      reader.readAsDataURL(image);
     }
   }
+
+const previewImageTwo = () => {
+  let imageInput = document.getElementById("image_input_two");
+  let image = imageInput.files[0];
+  console.log(image)
+  if(image) {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      document.getElementById("img_preview_two").setAttribute("src", e.target.result);
+    };
+
+    reader.readAsDataURL(image);
+  }
+}
+
+const previewImageThree = () => {
+  let imageInput = document.getElementById("image_input_three");
+  let image = imageInput.files[0];
+  if(image) {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      document.getElementById("img_preview_three").setAttribute("src", e.target.result);
+    };
+
+    reader.readAsDataURL(image);
+  }
+}
 </script>
