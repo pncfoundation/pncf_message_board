@@ -1,5 +1,6 @@
 <template>
   <main>
+<!-------------------------------------------------------------------- ABOUT -------------------------------------------------------------------->
     <h1 class="orange">Admin Board</h1>
 
     <p class="centered">
@@ -15,13 +16,17 @@
 
     <br>
 
+<!-------------------------------------------------------------------- PROMOTION AREA -------------------------------------------------------------------->
+
     <section>
       <h1 class="orange">Promotion Area</h1>
 
       <p class="centered">
         The promotion area is located on the side nav. This section can control what kind of grid layout the side nav will have and what to display in that area.
+        The promotion area can only display images. Ensure that when any interns develop a promotion image or poster, the image is under 10MB (megabytes).
       </p>
 
+<!-------------------------------------------------------------------- CHOOSING GRID LAYOUT -------------------------------------------------------------------->
       <div id="promotion_controls">
         <h2 class="green">Choose Grid Layout</h2>
 
@@ -53,11 +58,41 @@
           </label>
         </div>
       </div>
+
+<!-------------------------------------------------------------------- CHOOSING GRID MEDIA -------------------------------------------------------------------->
+      <h2 class="green">Choose Media to Display</h2>
+
+      <div class="hstack" id="media_preview_controls">
+        <p id="select_grid_warning" hidden>Please select a grid layout.</p>
+
+        <div id="media_grid_preview">
+          <span class="item1"></span>
+          <span class="item2"></span>
+          <span class="item3"></span>
+        </div>
+
+        <div class="vstack" id="image_inputs">
+          <input type="file" accept="image/*" id="image_input_one">
+          <input type="file" accept="image/*" id="image_input_two">
+          <input type="file" accept="image/*" id="image_input_three">
+        </div>
+      </div>
     </section>
   </main>
 </template>
 
+
+
+
+
+
+
+
 <style scoped>
+h2 {
+  margin: 2rem 0 1rem 0;
+}
+
 /*--------------------------------------------------------------- STYLING GRID CHOICES ---------------------------------------------------------------*/
 #promotion_grid_choices {
   width: 100%;
@@ -68,7 +103,6 @@
   width: 20%;
   aspect-ratio: 1;
   display: grid;
-  border-radius: 8px;
 }
 
 #promotion_grid_choices label span {
@@ -140,8 +174,76 @@
 .grid_radios:checked + label .item3 {
   background: var(--theme) !important;
 }
+
+/*--------------------------------------------------------------- STYLING MEDIA PREVIEW ---------------------------------------------------------------*/
+#media_preview_controls {
+  justify-content: space-evenly;
+}
+
+#media_grid_preview {
+  display: grid;
+  gap: 2px;
+  width: 35%;
+  aspect-ratio: 1;
+  border-radius: 12px;
+}
+
+#media_grid_preview span {
+  border: solid 2px white;
+  border-radius: 5px;
+  background-color: var(--background-third);
+}
+
+
+/*--------------------------- DETERMINING WHICH LAYOUT TO DISPLAY BASED ON WHICH WAS SELECTED & WHICH FILE INPUTS TO DISPLAY ---------------------------*/
+
+/* FIRST GRID OPTION */
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_one:checked) ~ #media_preview_controls #image_inputs input:nth-child(2) {
+  display: none;
+}
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_one:checked) ~ #media_preview_controls #image_inputs input:nth-child(3) {
+  display: none;
+}
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_one:checked) ~ #media_preview_controls #media_grid_preview span:nth-child(2) {
+  display: none;
+}
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_one:checked) ~ #media_preview_controls #media_grid_preview span:nth-child(3) {
+  display: none;
+}
+
+/* SECOND GRID OPTION */
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_two:checked) ~ #media_preview_controls #image_inputs input:nth-child(2) {
+  display: none;
+}
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_two:checked) ~ #media_preview_controls #media_grid_preview span:nth-child(3) {
+  display: none;
+}
+/* THIRD GRID OPTION */
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_three:checked) ~ #media_preview_controls #media_grid_preview {
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+}
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_three:checked) ~ #media_preview_controls #media_grid_preview span:nth-child(1) {
+  grid-column: span 2;
+}
+
+/* FOURTH GRID OPTION */
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_four:checked) ~ #media_preview_controls #media_grid_preview {
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+}
+#promotion_controls:has(#promotion_grid_choices):has(input#grid_four:checked) ~ #media_preview_controls #media_grid_preview span:nth-child(3) {
+  grid-column: span 2;
+}
+
 </style>
 
 <script setup>
+//  Functions to preview images when placed in the file input
+  const previewImageOne = () => {
+    const imageInput = document.getElementById("image_input_one");
+    if(imageInput.length > 0) {
 
+    }
+  }
 </script>
