@@ -12,6 +12,10 @@
     </div>
 
     <span class="spacer"></span>
+
+    <div class="hstack" id="header-control">
+      <router-link to="/pnc/admin">Admin</router-link>
+    </div>
   </header>
 
 <!----------------------------------------- Content between header and footer ----------------------------------------->

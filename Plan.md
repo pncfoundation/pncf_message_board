@@ -42,9 +42,21 @@ Get and use custom font "Love Ya Like a Sister"
 
 # Moderators
 
+PNCF may have future interns moderate for them. Create a lesser admin account where
+superuser can configure permission
+
+## Accessing the Admin Page
+
+The link for this page will be on the official PNCF website, but those who are
+aware of it may also simply bookmark the page. The link will lead to a login page
+where the PNCF member will need to use their own credentials to login. 
+The superuser (Mrs. Butcher) will have the ability to add and remove admin 
+accounts. There will also be a log that displays what each user has done on 
+the admin page.
+
 ## Reviewing Messages
 
-- Accept/Reject 
+- Accept/Reject Message Suggestions
 - Delete previous ones easily by clicking a trash icon
 - Click words to asterisk(*) them out
 
