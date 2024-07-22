@@ -1,10 +1,10 @@
 <template>
   <div class="message">
-    <div class="hstack">
-      <p>{{ timeAgo(date) }}  |  {{ upvotes }} upvotes</p>
+    <div class="hstack message_head">
+      <p>{{ timeAgo(date) }}  •  {{ upvotes }} upvotes</p>
     </div>
 
-    <p>{{ message }}</p>
+    <p class="message_content">{{ message }}</p>
   </div>
 </template>
 
@@ -70,7 +70,25 @@
 
 <style scoped>
   .message {
-    width: clamp(500px, 50dvw, 70dvw);
-    margin: 2rem 0;
+    width: clamp(500px, 60%, 70dvw);
+    margin: 1rem 0;
+    padding: 6px 8px;
+    background: var(--background-third);
+    border-radius: 1rem;
+  }
+
+  .message_head {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 5px;
+  }
+
+  .message_head p {
+    font-weight: bold;
+  }
+
+  .message_content {
+    display: block;
+    text-align: left;
   }
 </style>

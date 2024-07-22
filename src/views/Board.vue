@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h1>Message Board</h1>
+    <h1 class="cFont">Message Board</h1>
 
     <message
         v-for="(message, index) in dummyMessages"
@@ -14,10 +14,7 @@
 </template>
 
 <style scoped>
-  main {
-    display: flex;
-    flex-direction: column;
-  }
+
 </style>
 
 <script setup>
@@ -45,6 +42,14 @@
     mFour: {
       date: new Date(),
       message: "So we can add a handful more syntaxes, increase tool chain complexity, and tie ourselves to a company famous for its walled gardens and closed platforms? Sign me up.",
+    },
+    mFive: {
+      date: new Date(),
+      message: "It’s actually been available for a while now.\n" +
+          "\n" +
+          "https://www.swift.org/blog/embedded-swift-examples/\n" +
+          "\n" +
+          "Important stuff to remember. This is not the same swift as you know it. It looks the same, but it’s way more limited in what you can do. You can’t just load libraries like Alamofire and use it. But, let’s say string manipulation is mostly the same. Most of the code produced for embedded swift - is compileable on mac, but won’t work the other way around"
     }
   }
 </script>

@@ -5,7 +5,7 @@
     --background-light-third: #f2f2f2;
     --background-dark: #181818;
     --background-dark-secondary: #282828;
-    --background-dark-third: #222222;
+    --background-dark-third: #494444;
 
 
 
@@ -80,8 +80,17 @@ body {
 /* Main tag is found in each view */
 main {
     min-height: 100dvh;
-    background-color: var(--background-third);
+    background-color: var(--background);
     flex-grow: 1;
+    max-width: 85dvw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+main > * {
+    width: 60% !important;
 }
 
 header {
@@ -113,7 +122,7 @@ nav {
     justify-self: flex-start;
     gap: 10px;
     background-color: var(--background-secondary);
-    width: clamp(13%, 380px, 90%);
+    width: clamp(13%, 15dvw, 90%);
     min-height: calc(100dvh - 6rem); /* Full Screen Height - Height of Header */
     height: fit-content;
     padding: 1rem;
