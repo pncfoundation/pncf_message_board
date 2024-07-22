@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h1 class="cFont">Message Board</h1>
+    <h1>Message Board</h1>
 
     <message
         v-for="(message, index) in dummyMessages"

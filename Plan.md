@@ -59,6 +59,7 @@ the admin page.
 - Accept/Reject Message Suggestions
 - Delete previous ones easily by clicking a trash icon
 - Click words to asterisk(*) them out
+- Edit already accepted submissions
 
 ## Configuring Promotions
 

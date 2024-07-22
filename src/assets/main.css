@@ -30,6 +30,12 @@
     text-align: center;
 }
 
+.fake_link {
+    text-decoration: none;
+    color: var(--text);
+    cursor: unset;
+}
+
 /* Setting classes to use theme colors (text and background) */
 .green { color: var(--theme); }
 .green-b { background: var(--theme); }
@@ -37,7 +43,7 @@
 .orange-b { background: var(--theme-secondary); }
 
 
-/*Custom Font*/
+/*Custom Font h1 and h2 already have it, but this is for use elsewhere*/
 .cFont {
     font-family: "Love Ya Like A Sister", cursive;
     font-weight: 500;

@@ -2,7 +2,7 @@
   <main>
 <!------------------------------------------------------------------------ ABOUT ------------------------------------------------------------------------>
     <section>
-      <h1 class="cFont">About the Message Board</h1>
+      <h1>About the Message Board</h1>
 
       <p>
         This message board is an outreach newsletter (need to confirm. Will it be outreach or more a safe space to share?) that aims to provide a
@@ -61,7 +61,7 @@
 
 <!--------------------------------------------------------------------- FREQUENTLY ASKED QUESTIONS --------------------------------------------------------------------->
     <section id="faq">
-      <h1 class="cFont">Frequently Asked Questions</h1>
+      <h1>Frequently Asked Questions</h1>
 
       <ul>
         <li>
@@ -116,7 +116,7 @@
 
 <!---------------------------------------------------------------------------- DISCLAIMER ---------------------------------------------------------------------------->
     <section>
-      <h1 class="cFont">Disclaimer for Readers</h1>
+      <h1>Disclaimer for Readers</h1>
 
       <p id="text-block">
         The Peaches and Cream Foundation provides this message board as a platform for individuals to share personal experiences and thoughts related to mental wellness.
@@ -148,7 +148,7 @@
         <br><br>
 
         By accessing and reading submissions on the Peaches and Cream Foundation message board, you acknowledge and agree to this disclaimer and the
-        Terms of Use governing the website.
+        Terms of Use governing the <router-link class="fake_link" to="/pnc/admin">website</router-link>.
 
         <br><br>
 
@@ -157,7 +157,7 @@
 
 <!----------------------------------------------------------------------------- TERMS OF USE ----------------------------------------------------------------------------->
     <section>
-      <h1 class="cFont">Terms of Use</h1>
+      <h1>Terms of Use</h1>
 
       <p id="text-block">
         To comply with COPPA, children under 13 are not allowed to submit through this website.
@@ -235,7 +235,6 @@
   }
 
   h1 {
-    font-size: 2rem;
     margin-bottom: 2rem;
     text-decoration: underline;
     color: var(--theme)

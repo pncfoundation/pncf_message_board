@@ -170,7 +170,14 @@ h1, h2, button, h3, label {
 }
 
 h1 {
+    font-size: 2rem;
     text-align: center;
+}
+
+h1, h2 {
+    font-family: "Love Ya Like A Sister", cursive;
+    font-weight: 500;
+    font-style: normal;
 }
 
 /* Normal text */
