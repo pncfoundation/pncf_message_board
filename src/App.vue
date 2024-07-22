@@ -43,7 +43,7 @@
       <hr>
 
       <div id="board_guidelines">
-        <h3>Board Guidelines</h3>
+        <h3 class="centered">Board Guidelines</h3>
 
         <ul>
           <li>
@@ -80,7 +80,7 @@
 <style>
 /*noinspection ALL*/
 #app {
-  text-align: center;
+
 }
 
 /*------------------------------------------------------ HEADER ------------------------------------------------------*/

@@ -22,6 +22,14 @@
     flex-grow: 1;
 }
 
+.bold {
+    font-weight: bold;
+}
+
+.centered {
+    text-align: center;
+}
+
 /* Setting classes to use theme colors (text and background) */
 .green { color: var(--theme); }
 .green-b { background: var(--theme); }

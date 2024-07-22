@@ -169,6 +169,10 @@ h1, h2, button, h3, label {
     margin: 0;
 }
 
+h1 {
+    text-align: center;
+}
+
 /* Normal text */
 p, a, ul, li {
     color: var(--text);

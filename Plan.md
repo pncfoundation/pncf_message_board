@@ -66,3 +66,5 @@ ___
 - Allow Users to upVote
   - Probably not since anyone can upvote unlimited times
 - Threads and replies?
+  - Messages on the message board may have a numerical indicator for # of replies
+  - Indicator opens a page or dialog with that messages thread
