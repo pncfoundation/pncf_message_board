@@ -2,11 +2,13 @@
   <div class="message">
     <div class="hstack message_head">
       <p class="green">{{ timeAgo(date) }}</p>
-      <p>•</p>
-      <p class="orange">{{ upvotes }} upvotes</p>
+      <p v-if="upvotes">•</p>
+      <p v-if="upvotes" class="orange">{{ upvotes }} upvotes</p>
     </div>
 
     <p class="message_content">{{ message }}</p>
+
+    <span v-if="highlighted" class="message_highlight"></span>
   </div>
 </template>
 
@@ -76,7 +78,7 @@
     margin: 1rem 0;
     padding: 6px 8px;
     background: var(--background-third);
-    border-radius: 1rem;
+    border-radius: 10px;
   }
 
   .message_head {
@@ -92,5 +94,16 @@
   .message_content {
     display: block;
     text-align: left;
+    font-size: 1.1rem;
+  }
+
+  .message_highlight {
+    width: 6px;
+    height: 100%;
+    background: var(--theme);
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 0 10px 10px 0;
   }
 </style>

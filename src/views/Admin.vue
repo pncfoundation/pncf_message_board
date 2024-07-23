@@ -1,7 +1,7 @@
 <template>
   <main>
 <!-------------------------------------------------------------------- ABOUT -------------------------------------------------------------------->
-    <h1 class="orange">Admin Board</h1>
+    <h1>Admin Board</h1>
 
     <p class="centered">
       This message board enable the Peaches and Cream Foundation to control many functions and content within the message board.
@@ -19,7 +19,7 @@
 <!-------------------------------------------------------------------- PROMOTION AREA -------------------------------------------------------------------->
 
     <section>
-      <h1 class="orange">Promotion Area</h1>
+      <h1>Promotion Area</h1>
 
       <p class="centered">
         The promotion area is located on the side nav. This section can control what kind of grid layout the side nav will have and what to display in that area.
@@ -99,6 +99,35 @@
         </div>
       </div>
     </section>
+
+    <br>
+<!-------------------------------------------------------------------- MESSAGE PANEL -------------------------------------------------------------------->
+    <section>
+      <h1>Message Control Panel</h1>
+
+      <p class="centered">
+        View messages users have submitted in this area. The section allows for the ability to accept, reject, and modify those messages. In for
+        this message board to remain as a safe space, there is a need to moderate how these messages will look like. If only a part of the
+        message is inappropriate, then it may be omitted with *, but if it is more serious, it can be rejected.
+      </p>
+
+
+      <div class="hstack">
+        <div class="vstack" id="message_submissions">
+          <h2 class="green">Submissions</h2>
+
+          <submission
+              v-for="(message, index) in dummyMessages"
+              :key="index"
+              :date="dummyMessages[index].date"
+              :message="dummyMessages[index].message"
+              :highlighted="dummyMessages[index].highlighted"
+          ></submission>
+        </div>
+
+
+      </div>
+    </section>
   </main>
 </template>
 
@@ -110,6 +139,10 @@
 
 
 <style scoped>
+h1 {
+  color: var(--theme-secondary);
+}
+
 h2 {
   margin: 2rem 0 1rem 0;
 }
@@ -312,9 +345,22 @@ h2 {
   grid-column: span 2;
 }
 
+
+/*---------------------------------------------------------------- MESSAGE CONTROL PANEL ----------------------------------------------------------------*/
+
+#message_submissions {
+  margin-top: 1rem;
+}
+
+#message_submissions > * {
+  margin: 5px 0;
+}
 </style>
 
 <script setup>
+  import Submission from "@/components/Submission.vue";
+
+//-------------------------------------------------------------------- PROMOTION AREA --------------------------------------------------------------------
 //  Functions to preview images when placed in the file input
   const previewImageOne = () => {
     let imageInput = document.getElementById("image_input_one");
@@ -355,4 +401,41 @@ const previewImageThree = () => {
     reader.readAsDataURL(image);
   }
 }
+
+
+//-------------------------------------------------------------------- MESSAGE CONTROL --------------------------------------------------------------------
+const dummyMessages = {
+  mOne: {
+    date: new Date('2024-07-20T10:15:45'),
+    message: "This is not going to be a general purpose embedded language. It is way too heavy. For an embedded system, ESP32 is pretty high end as far as performance goes. Even in the video they show expected use case - IoT stuff that connects to Apple cloud. And for this it might be fine if it allows quick start.",
+    highlighted: false,
+    upvotes: 10
+  },
+  mTwo: {
+    date: new Date('2024-07-14T16:45:30'),
+    message: "Interesting announcement! Personally, I'd rather see big companies invest in more open source and existing C/C++ alternatives like Rust or Zig so that we don't get too much fragmentation. But I'll take investment in any language over none! I wonder how low level it will be. I've noticed in the past that \"embedded\" for large tech companies can mean a RaspberryPi (I'm thinking of AWS Greengrass).",
+    highlighted: false,
+  },
+  mThree: {
+    date: new Date('2021-05-20T23:10:05'),
+    message: "They demo it on ESP32. It is still not embedded enough. They support a decent subset of the language, which automatically requires heap allocations. They disabled some introspection and 'any ' type support, so at least RTTI is not required.\n" +
+        "\n" +
+        "But you still will need an MCU with enough SRAM to support meaningful heap.",
+    upvotes: 10
+  },
+  mFour: {
+    date: new Date('2020-01-10T05:25:30'),
+    message: "So we can add a handful more syntaxes, increase tool chain complexity, and tie ourselves to a company famous for its walled gardens and closed platforms? Sign me up.",
+  },
+  mFive: {
+    date: new Date('2019-08-25T16:55:45'),
+    message: "It’s actually been available for a while now.\n" +
+        "\n" +
+        "https://www.swift.org/blog/embedded-swift-examples/\n" +
+        "\n" +
+        "Important stuff to remember. This is not the same swift as you know it. It looks the same, but it’s way more limited in what you can do. You can’t just load libraries like Alamofire and use it. But, let’s say string manipulation is mostly the same. Most of the code produced for embedded swift - is compileable on mac, but won’t work the other way around"
+  }
+}
+
+
 </script>

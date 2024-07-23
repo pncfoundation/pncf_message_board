@@ -69,6 +69,7 @@ the admin page.
   - 2 Side by Side
   - 2 Stacked
   - 3 > 1 Long and 2 Half Sized
+- Layout currently on the website will already be selected. From Database
 
 
 ___
