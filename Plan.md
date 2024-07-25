@@ -60,6 +60,8 @@ the admin page.
 - Delete previous ones easily by clicking a trash icon
 - Click words to asterisk(*) them out
 - Edit already accepted submissions
+- Allow mods to highlight the message
+  - Modifies the object of that message
 
 ## Configuring Promotions
 
