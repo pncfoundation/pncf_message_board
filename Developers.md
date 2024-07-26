@@ -94,9 +94,10 @@ Navigate to the `Server` directory in your terminal if not already there.
 
 Start the Server in your terminal
 
-    nodemon server.js
+    npm run start
 
-Nodemon is a package that will automatically check for errors and pause the server
-until you fix them. Once you save the file, it will attempt to restart. This makes
+This will initialize Nodemon to handle the server. Nodemon is a package that will 
+automatically check for errors and pause the server until you fix them. 
+Once you save the file, it will attempt to restart. This makes
 it much easier to find problems and restart the server rather than using the 
 terminal each time.

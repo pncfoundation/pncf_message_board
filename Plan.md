@@ -74,6 +74,31 @@ the admin page.
 - Layout currently on the website will already be selected. From Database
 
 
+# Database
+
+## Tables
+
+- Admin
+  - username    String
+  - password    String
+  - first name  String
+  - lastname    String
+  - superuser   boolean
+  - commits     Integer
+
+- Message
+  - date - DateTime
+  - message - String
+
+- Submission
+  - date - DateTime
+  - message - String
+
+- Log
+  - date - DateTime
+  - action - String
+  - user - reference to admin
+
 ___
 # Possible Additions
 

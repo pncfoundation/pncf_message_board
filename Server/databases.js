@@ -14,8 +14,13 @@
 const Sequelize = require('sequelize');
 
 // The username & password are environment variables either in a .env or in the DigitalOcean droplet settings.
-const messageBoardUsername = process.env.USERNAME;
-const messageBoardPassword = process.env.PASSWORD;
+const localMessageBoardUsername = process.env.localMessageBoardUsername;
+const localMessageBoardPassword = process.env.localMessageBoardPassword;
+const messageBoardUsername = process.env.messageBoardUsername;
+const messageBoardPassword = process.env.messageBoardPassword;
+
+
+
 
 
 
@@ -24,17 +29,19 @@ const messageBoardPassword = process.env.PASSWORD;
     This one uses the localhost server if you are testing and have the database on your computer.
 */
 // noinspection JSUnusedLocalSymbols
-const localMessageBoard = new Sequelize('messageBoard', messageBoardUsername, messageBoardPassword, {
+const localMessageBoard = new Sequelize('messageBoard', localMessageBoardUsername, localMessageBoardPassword, {
     host: 'localhost',
     dialect: 'mysql',
     dialectOptions: {
         ssl: {
-            require: true,
-            rejectUnauthorized: true,
+            require: false,
+            rejectUnauthorized: false,
         }
     },
     logging: false
 });
+
+
 
 
 
@@ -55,6 +62,9 @@ const MessageBoard = new Sequelize('messageBoard', messageBoardUsername, message
 });
 
 
+
+
+
 /*
     Functions to check the connection to the databases. Ideally, handle the errors in a way so that the user on the
     web application is notified that the servers are down and so that PNCF can have someone take a look as to why its down.
@@ -69,21 +79,26 @@ const MessageBoard = new Sequelize('messageBoard', messageBoardUsername, message
 async function initLocalMessageBoard() {
     try {
         await localMessageBoard.sync();
-        console.log("Connection has been established successfully.");
+        console.log("Connected to local message board database");
     } catch (error) {
-        console.error("--------------- Unable to connect to database ---------------\n, error");
+        console.error("--------------- Unable to connect to local database ---------------\n", error);
     }
 }
 
 async function initMessageBoard() {
     try {
         await localMessageBoard.sync();
-        console.log("Connection has been established successfully.");
+        console.log("Connected to message board database");
     } catch (error) {
-        console.error("--------------- Unable to connect to database ---------------\n, error");
+        console.error("--------------- Unable to connect to message board database ---------------\n", error);
         // Change this error handler
     }
 }
+
+
+
+
+
 
 
 /*
@@ -94,12 +109,13 @@ async function initMessageBoard() {
     }
 */
 
+// Single database initializer
 async function main() {
     await initLocalMessageBoard();
 }
 
 main().then(() => {
-    console.log("Databases and Schemas Connected")
+    console.log("All databases Connected")
 })
 
 

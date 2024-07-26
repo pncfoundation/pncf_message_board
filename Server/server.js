@@ -12,6 +12,7 @@
 
 
 // Import server dependencies
+const { localMessageBoard } = require('./databases');
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -44,7 +45,19 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-// RETURN TO THIS
+// Main function to connect databases and start server
 async function main() {
-    const server = await app.listen(3000);
+    try {
+        await localMessageBoard.sync();
+
+        app.listen(8081, () => {
+            console.log(`Server is running at http://localhost:8081`);
+        });
+    } catch (error) {
+        console.log("----------- Unable to connect to databases -----------\n, error");
+    }
 }
+
+main().then(() => {
+    console.log("Server and Databases Connected");
+})
