@@ -18,12 +18,7 @@ const localMessageBoardUsername = process.env.localMessageBoardUsername;
 const localMessageBoardPassword = process.env.localMessageBoardPassword;
 const messageBoardUsername = process.env.messageBoardUsername;
 const messageBoardPassword = process.env.messageBoardPassword;
-
-
-
-
-
-
+// ----------------------------------------------------------------------------------------------------------
 /*
     This is how to create a database object the server will use to connect to.
     This one uses the localhost server if you are testing and have the database on your computer.
@@ -40,11 +35,7 @@ const localMessageBoard = new Sequelize('messageBoard', localMessageBoardUsernam
     },
     logging: false
 });
-
-
-
-
-
+// ----------------------------------------------------------------------------------------------------------
 /*
     This is for the actual database.
     Create the database connection object
@@ -60,11 +51,7 @@ const MessageBoard = new Sequelize('messageBoard', messageBoardUsername, message
     },
     logging: false
 });
-
-
-
-
-
+// ----------------------------------------------------------------------------------------------------------
 /*
     Functions to check the connection to the databases. Ideally, handle the errors in a way so that the user on the
     web application is notified that the servers are down and so that PNCF can have someone take a look as to why its down.
@@ -75,51 +62,35 @@ const MessageBoard = new Sequelize('messageBoard', messageBoardUsername, message
 
     database.authenticate() : Use this one for production. It simply checks if the server can connect and utilize the db.
 */
-// noinspection JSUnusedLocalSymbols
-async function initLocalMessageBoard() {
-    try {
-        await localMessageBoard.sync();
-        console.log("Connected to local message board database");
-    } catch (error) {
-        console.error("--------------- Unable to connect to local database ---------------\n", error);
+
+const dbFunctions = {
+    async initLocalMessageBoard() {
+        try {
+            await localMessageBoard.sync();
+            console.log("Local database is synced.");
+        } catch (error) {
+            console.error("--------------- Unable to connect to local database ---------------\n", error);
+        }
+    },
+
+    async initMessageBoard() {
+        try {
+            await MessageBoard.authenticate();
+            console.log("Connected to message board database");
+        } catch (error) {
+            console.error("--------------- Unable to connect to message board database ---------------\n", error);
+            // Change this error handler
+        }
     }
 }
-
-async function initMessageBoard() {
-    try {
-        await localMessageBoard.sync();
-        console.log("Connected to message board database");
-    } catch (error) {
-        console.error("--------------- Unable to connect to message board database ---------------\n", error);
-        // Change this error handler
-    }
-}
-
-
-
-
-
-
+// ----------------------------------------------------------------------------------------------------------
 
 /*
-    This is the way to call multiple databases if another is ever created and used together
-
-    async function main() {
-        await Promise.all([initMessageBoard(), initLocalMessageBoard()]);
-    }
+    - Properly export databases objects or functions here.
+    - localMessageBoard & messageBoard are used in models/controllers
+    - dbFunctions is used in server.js to sync or check connection to the databases
 */
-
-// Single database initializer
-async function main() {
-    await initLocalMessageBoard();
-}
-
-main().then(() => {
-    console.log("All databases Connected")
-})
-
-
-// Properly export databases objects here.
 module.exports = {
-    localMessageBoard
+    localMessageBoard,
+    dbFunctions
 }

@@ -99,6 +99,32 @@ the admin page.
   - action - String
   - user - reference to admin
 
+## Actions
+
+- Admin
+  - Create a new Admin
+  - authenticate
+  - Grant superuser
+  - Revoke superuser
+  - get all admins
+  - delete admin
+
+- Message
+  - Create
+  - Delete
+  - Modify
+  - Get next 20
+
+- Submission
+  - Create
+  - Delete
+  - get all
+
+- Log
+  - Create
+  - Get
+  - get next 20
+
 ___
 # Possible Additions
 
