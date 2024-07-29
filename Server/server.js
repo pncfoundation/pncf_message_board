@@ -24,6 +24,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Require routes.js for url paths
+require('./routes')(app);
 
 // Dist is the directory within client where the built web app is
 app.use(express.static(path.join(__dirname, 'dist')));
