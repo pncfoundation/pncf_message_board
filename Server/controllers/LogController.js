@@ -4,6 +4,13 @@ const { handleError } = require('./errorHandler');
 module.exports = {
     async create(req, res) {
         try {
+            const { adminId } = req.body;
+            const admin = await Admin.findByPk(adminId);
+
+            if(!admin) {
+                req.body.adminId = null;
+            }
+
             const log = await Log.create(req.body);
             res.status(200).send(log);
         } catch(error) {
@@ -22,9 +29,6 @@ module.exports = {
                     model: Admin,
                     attributes: ["name"]
                 }],
-                attributes: {
-                    exclude: ["adminId"]
-                },
 
                 limit: limit,
                 offset: offset,
@@ -33,7 +37,7 @@ module.exports = {
 
             const formattedLogs = logs.map(log => {
                 const logData = log.toJSON();
-                logData.name = logData.Admin.name;
+                logData.adminName = logData.Admin ? logData.Admin.name : "Unknown";
                 delete logData.Admin;
                 return logData;
             });
