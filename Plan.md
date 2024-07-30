@@ -122,7 +122,6 @@ the admin page.
 
 - Log
   - Create
-  - Get
   - get next 20
 
 ___

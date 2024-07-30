@@ -4,6 +4,7 @@
 */
 
 const adminController = require('./controllers/AdminController');
+const logController = require('./controllers/LogController');
 
 module.exports = (app) => {
     // Test Route
@@ -17,4 +18,8 @@ module.exports = (app) => {
     app.put('/admins/revoke', adminController.revokeSuper);
     app.get('/admins/getAll', adminController.getAll);
     app.delete('/admins/delete', adminController.delete);
+
+    app.post('/logs/create', logController.create);
+    app.post('/logs/getGroup', logController.getGroup);
+    // app.get('/logs/getAll', logController.getAll);
 }

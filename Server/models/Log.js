@@ -13,7 +13,7 @@ const Log = localMessageBoard.define("Log",
 
         date: {
             type: DataTypes.DATE,
-            allowNull: false
+            defaultValue: DataTypes.NOW,
         },
 
         action: {
