@@ -11,8 +11,8 @@ module.exports = {
                 req.body.adminId = null;
             }
 
-            const log = await Log.create(req.body);
-            res.status(200).send(log);
+            await Log.create(req.body);
+            res.status(200).send("");
         } catch(error) {
             handleError(res, error);
         }

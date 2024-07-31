@@ -12,6 +12,7 @@ const Message = localMessageBoard.define("Message",
 
         date: {
             type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
             allowNull: false
         },
 

@@ -5,6 +5,7 @@
 
 const adminController = require('./controllers/AdminController');
 const logController = require('./controllers/LogController');
+const messageController = require('./controllers/MessageController');
 
 module.exports = (app) => {
     // Test Route
@@ -22,4 +23,10 @@ module.exports = (app) => {
     app.post('/logs/create', logController.create);
     app.post('/logs/getGroup', logController.getGroup);
     // app.get('/logs/getAll', logController.getAll);
+
+    app.post('/messages/create', messageController.createMessage);
+    app.post('/messages/modify', messageController.modifyMessage);
+    app.post('/messages/getByGroup', messageController.getMessageGroup);
+    app.delete('/messages/delete', messageController.deleteMessage);
+    app.get('/messages/getAll', messageController.getAllMessages);
 }

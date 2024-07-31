@@ -101,6 +101,10 @@ the admin page.
 
 ## Actions
 
+Ensure functions do not have same name
+
+For get groups (maybe add a get count function to get pages)
+
 - Admin
   - Create a new Admin
   - authenticate
@@ -108,6 +112,7 @@ the admin page.
   - Revoke superuser
   - get all admins
   - delete admin
+  - (Maybe dont delete but remove access)
 
 - Message
   - Create
