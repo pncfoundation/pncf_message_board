@@ -1,14 +1,16 @@
 <template>
+<!-- The commented lines are for upvotes and highlighted messages features. Feel free to
+ implement them whenever. -->
   <div class="message">
     <div class="hstack message_head">
       <p class="green">{{ timeAgo(date) }}</p>
-      <p v-if="upvotes">•</p>
-      <p v-if="upvotes" class="orange">{{ upvotes }} upvotes</p>
+<!--      <p v-if="upvotes">•</p>-->
+<!--      <p v-if="upvotes" class="orange">{{ upvotes }} upvotes</p>-->
     </div>
 
     <p class="message_content">{{ message }}</p>
 
-    <span v-if="highlighted" class="message_highlight"></span>
+<!--    <span v-if="highlighted" class="message_highlight"></span>-->
   </div>
 </template>
 
@@ -22,14 +24,14 @@
       type: String,
       required: true
     },
-    highlighted: {
-      type: Boolean,
-      default: false
-    },
-    upvotes: {
-      type: Number,
-      default: 0
-    }
+    // highlighted: {
+    //   type: Boolean,
+    //   default: false
+    // },
+    // upvotes: {
+    //   type: Number,
+    //   default: 0
+    // }
   })
 
   // Returns time ex: 11:52am

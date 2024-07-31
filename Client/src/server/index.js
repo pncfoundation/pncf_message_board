@@ -1,0 +1,70 @@
+// Define server url running on digital ocean. http://localhost:8081/ is for development on local machines
+const server = "http://localhost:8081";
+
+/*
+    Here we define the available functions our front end can use to make http requests.
+    We import this file as '@/server' in our <script setup> section.
+    Then we can call any of these functions for our backend.
+
+    Deal with errors whenever you use them as they may be different based on the route you call.
+
+    Ensure that errors are caught and deal with appropriately. I set up the backend to return appropriate
+    status codes. 200 = good | 404 = not found | 500 = internal server error (to name a few)
+
+    Deal with errors based on the error provided.
+    Take a look at <root>/server/controllers/<any controller> and errorHandler.js to know which errors these
+    functions may throw.
+*/
+module.exports = {
+    async getRequest(data, route) {
+        const response = await fetch(`${server}${route}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: data
+        });
+
+        return response.json();
+    },
+
+    async postRequest(data, route) {
+        const response = await fetch(`${server}${route}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        const responseData = await response.json(); // Parse the JSON response
+        return {
+            status: response.status, // Get the status code
+            message: responseData.message // Get the message from the JSON response
+        };
+    },
+
+    async putRequest(data, route) {
+        const response = await fetch(`${server}${route}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: data.json()
+        })
+
+        return response.json();
+    },
+
+    async deleteRequest(data, route) {
+        const response = await fetch(`${server}${route}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: data.json()
+        })
+
+        return response.json();
+    }
+}

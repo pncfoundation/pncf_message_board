@@ -29,15 +29,14 @@ Get and use custom font "Love Ya Like a Sister"
 
 - Contains Side Nav and Content
 
-### Footer
-
-- Links for main site and login for moderators
-
 ## Board (Home) Page
 - Contains message board for everyone to see
 - Fetches the 10 most recent messages from database
 - User can load more when they scroll down
 - Site checks for new messages every 2 minutes
+
+## Submission Page
+- Dedicated submission page for messages
 
 
 # Moderators

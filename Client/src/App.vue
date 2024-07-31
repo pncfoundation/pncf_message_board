@@ -82,11 +82,11 @@
 </template>
 
 <style>
-/*noinspection ALL*/
-#app {
+/* // If you want to style the main container. I do not recommend this
+  #app {
 
-}
-
+  }
+*/
 /*------------------------------------------------------ HEADER ------------------------------------------------------*/
 #title_text {
   gap: 0;
@@ -155,6 +155,3 @@ footer {
 }
 
 </style>
-
-<script setup lang="ts">
-</script>

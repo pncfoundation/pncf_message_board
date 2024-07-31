@@ -103,7 +103,7 @@
     <br>
 <!-------------------------------------------------------------------- MESSAGE PANEL -------------------------------------------------------------------->
     <section>
-      <h1>Message Control Panel</h1>
+      <h1 @click="createAdmin">Message Control Panel</h1>
 
       <p class="centered">
         View messages users have submitted in this area. The section allows for the ability to accept, reject, and modify those messages. In for
@@ -121,7 +121,6 @@
               :key="index"
               :date="dummyMessages[index].date"
               :message="dummyMessages[index].message"
-              :highlighted="dummyMessages[index].highlighted"
           ></submission>
         </div>
 
@@ -357,8 +356,21 @@ h2 {
 }
 </style>
 
+
+
+
+
+
+
+
+
+
+
+
+
 <script setup>
   import Submission from "@/components/Submission.vue";
+  import requests from "@/server"
 
 //-------------------------------------------------------------------- PROMOTION AREA --------------------------------------------------------------------
 //  Functions to preview images when placed in the file input
@@ -437,5 +449,21 @@ const dummyMessages = {
   }
 }
 
+//-------------------------------------------------------------------- HTTP REQUESTS --------------------------------------------------------------------
+const createAdmin = async() => {
+  try {
+    const admin = {
+      username: "usernameOne",
+      password: "passwordOne",
+      name: "It WORKS",
+    };
 
+    await requests.postRequest(admin, "/admins/create")
+        .then((response) => {
+          console.log(response);
+        })
+  } catch (error) {
+    console.log(error)
+  }
+}
 </script>

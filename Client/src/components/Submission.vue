@@ -2,8 +2,8 @@
   <div class="message">
     <div class="hstack message_head">
       <p class="green">{{ timeAgo(date) }}</p>
-      <p v-if="upvotes">•</p>
-      <p v-if="upvotes" class="orange">{{ upvotes }} upvotes</p>
+<!--      <p v-if="upvotes">•</p>-->
+<!--      <p v-if="upvotes" class="orange">{{ upvotes }} upvotes</p>-->
     </div>
 
     <textarea class="message_content" id="area" @input="adjustTextareaHeight">{{ message }}</textarea>
@@ -14,6 +14,9 @@
         <path style="fill:#FFFFFF;" d="M29.656,15.516l2.828,2.828l-14.14,14.14l-2.828-2.828L29.656,15.516z"/>
         <path style="fill:#FFFFFF;" d="M32.484,29.656l-2.828,2.828l-14.14-14.14l2.828-2.828L32.484,29.656z"/>
       </svg>
+<!--
+This commented area are the buttons for the upvote and highlight features.
+Feel free to implement these whenever.
 
       <svg class="message_svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
         <path d="M25,2C12.318,2,2,12.318,2,25c0,12.683,10.318,23,23,23c12.683,0,23-10.317,23-23C48,12.318,37.683,2,25,2z M35.707,28.707C35.512,28.902,35.256,29,35,29s-0.512-0.098-0.707-0.293L25,19.414l-9.293,9.293c-0.391,0.391-1.023,0.391-1.414,0s-0.391-1.023,0-1.414l10-10c0.391-0.391,1.023-0.391,1.414,0l10,10C36.098,27.684,36.098,28.316,35.707,28.707z"/>
@@ -32,7 +35,7 @@
 
         Highlight
       </p>
-
+-->
       <span class="spacer"></span>
 
       <svg class="message_svg" id="accept" fill="#40C057" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 64 64">
@@ -40,7 +43,7 @@
       </svg>
     </div>
 
-    <span v-if="highlighted" class="message_highlight"></span>
+<!--    <span v-if="highlighted" class="message_highlight"></span>-->
   </div>
 </template>
 
@@ -56,27 +59,17 @@ const props = defineProps({
     type: String,
     required: true
   },
-  highlighted: {
-    type: Boolean,
-    default: false
-  },
-  upvotes: {
-    type: Number,
-    default: 0
-  }
+  // highlighted: {
+  //   type: Boolean,
+  //   default: false
+  // },
+  // upvotes: {
+  //   type: Number,
+  //   default: 0
+  // }
 })
 
-// Returns time ex: 11:52am
-const formatTime = (date) => {
-  let hours = date.getHours();
-  const minutes = date.getMinutes();
-  const ampm = hours >= 12 ? 'pm' : 'am';
-  hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
-  const minutesStr = minutes < 10 ? '0' + minutes : minutes;
-  return `${hours}:${minutesStr}${ampm}`;
-};
-
+// Returns how long ago the post was made. Ex: 3 minutes ago
 const timeAgo = (date) => {
   const now = new Date();
   const diff = now - date;
@@ -105,6 +98,7 @@ const timeAgo = (date) => {
   }
 };
 
+// Adjust height of the text areas to fit the text inside
 function adjustTextareaHeight() {
   let areas = document.querySelectorAll("textarea");
   areas.forEach(area => {
@@ -113,6 +107,7 @@ function adjustTextareaHeight() {
   })
 }
 
+// This is the function that is called immediately after the page loads.
 onMounted(() => {
   adjustTextareaHeight();
 })
