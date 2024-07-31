@@ -140,3 +140,4 @@ ___
 - Threads and replies?
   - Messages on the message board may have a numerical indicator for # of replies
   - Indicator opens a page or dialog with that messages thread
+- Notification system

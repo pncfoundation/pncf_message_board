@@ -204,9 +204,9 @@ table {
 th {
     color: var(--heading);
     font-size: 1.1rem;
-    text-decoration: solid underline;
-    border-bottom: solid 2px var(--heading);
+    border: solid 2px var(--heading);
     white-space: nowrap;
+    background: var(--theme-secondary);
 }
 
 td {
@@ -217,6 +217,7 @@ td {
     transition: .4s;
     white-space: normal;
     min-width: 8rem;
+    text-align: center;
 }
 
 td:hover {

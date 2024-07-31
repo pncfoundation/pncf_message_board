@@ -16,13 +16,12 @@ const server = "http://localhost:8081";
     functions may throw.
 */
 module.exports = {
-    async getRequest(data, route) {
+    async getRequest(route) {
         const response = await fetch(`${server}${route}`, {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
-            },
-            body: data
+            }
         });
 
         return response.json();

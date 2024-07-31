@@ -39,7 +39,7 @@
 <!-------------------------------------------------------------------- CHOOSING GRID LAYOUT -------------------------------------------------------------------->
       <div v-if="displayPromoArea">
         <div id="promotion_controls">
-          <h2 class="green">Choose Grid Layout</h2>
+          <h2>Choose Grid Layout</h2>
 
           <div class="hstack" id="promotion_grid_choices">
 
@@ -71,7 +71,7 @@
         </div>
 
 <!-------------------------------------------------------------------- CHOOSING GRID MEDIA -------------------------------------------------------------------->
-        <h2 class="green">Choose Media to Display</h2>
+        <h2>Choose Media to Display</h2>
 
         <div class="hstack" id="media_preview_controls">
           <p id="select_grid_warning" hidden>Please select a grid layout.</p>
@@ -131,13 +131,14 @@
       <p class="centered">
         View messages users have submitted in this area. The section allows for the ability to accept, reject, and modify those messages. In for
         this message board to remain as a safe space, there is a need to moderate how these messages will look like. If only a part of the
-        message is inappropriate, then it may be omitted with *, but if it is more serious, it can be rejected.
+        message is inappropriate, then it may be omitted with *, but if it is more serious, it can be rejected. All the messages are text areas
+        which you can edit before submitting.
       </p>
 
 
       <div class="hstack" v-if="displaySubmissions">
         <div class="vstack" id="message_submissions">
-          <h2 class="green">Submissions</h2>
+          <h2>Submissions</h2>
 
           <submission
               v-for="(message, index) in dummyMessages"
@@ -150,17 +151,86 @@
     </section>
 
 <!-------------------------------------------------------------------- ADMIN PANEL -------------------------------------------------------------------->
+    <br>
+
     <section>
       <div class="hstack">
         <h1>Admin Panel</h1>
-        <button class="sectionToggling" @click="displaySubmissions = !displaySubmissions">
-          <svg v-if="displaySubmissions" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+        <button class="sectionToggling" @click="displayAdminPanel = !displayAdminPanel; fetchAdmins();">
+          <svg v-if="displayAdminPanel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
             <path d="M39,4H11c-3.86,0-7,3.14-7,7v28c0,3.86,3.14,7,7,7h28c3.86,0,7-3.14,7-7V11C46,7.14,42.86,4,39,4z M39.7,19.71L25,33.31l-14.7-13.6c-0.4-0.39-0.4-1.02-0.01-1.41c0.39-0.4,1.02-0.4,1.41-0.01L25,30.49l13.3-12.2c0.39-0.39,1.02-0.39,1.41,0.01C40.1,18.69,40.1,19.32,39.7,19.71z"/>
           </svg>
           <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
             <path d="M4,11v28c0,3.86,3.14,7,7,7h28c3.86,0,7-3.14,7-7V11c0-3.86-3.14-7-7-7H11C7.14,4,4,7.14,4,11z M19.71,10.3L33.31,25l-13.6,14.7c-0.39,0.4-1.02,0.4-1.41,0.01c-0.4-0.39-0.4-1.02-0.01-1.41L30.49,25l-12.2-13.3c-0.39-0.39-0.39-1.02,0.01-1.41C18.69,9.9,19.32,9.9,19.71,10.3z"/>
           </svg>
         </button>
+      </div>
+
+      <p class="centered">
+        This area is visible only to super-user admins. Manage all admins within this area. View a list of all the admins that are active.
+        Create and delete admins. Control when to grant or revoke super-user privileges to admins.
+      </p>
+
+      <br>
+
+      <div id="admins" v-if="displayAdminPanel">
+        <h2>Admin Table</h2>
+        <table id="admin_table">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Super User</th>
+              <th>Commits</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr v-for="admin in admins" :key="admin.id">
+              <td>{{ admin.id }}</td>
+              <td>{{ admin.name }}</td>
+              <td :class="{ 'orange-b': admin.superUser}" >{{ admin.superUser ? "Yes" : "No" }}</td>
+              <td>{{ admin.commits }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="adminCreation">
+        <h2>Admin Creation</h2>
+
+        <p v-if="admin_errorMessage" id="admin-creation-error">{{ admin_errorMessage }}</p>
+        <p v-if="admin_success_message" id="admin-creation-success">{{ admin_success_message }}</p>
+
+        <div class="hstack">
+          <div class="vstack">
+            <p>Name</p>
+            <input type="text" v-model="admin_name">
+          </div>
+
+          <div class="vstack">
+            <p>Username</p>
+            <input type="text" v-model="admin_username">
+          </div>
+
+          <div class="vstack">
+            <p>Password</p>
+            <input type="text" v-model="admin_password">
+          </div>
+
+        </div>
+
+        <br>
+
+        <label id="superUserDiv">
+          <input type="checkbox" v-model="admin_super">
+          Super User
+        </label>
+
+        <div class="hstack">
+          <span class="spacer"></span>
+          <button id="createAdminButton" @click="createAdmin">Create Admin</button>
+        </div>
       </div>
     </section>
   </main>
@@ -180,6 +250,7 @@ h1 {
 
 h2 {
   margin: 2rem 0 1rem 0;
+  color: var(--theme);
 }
 
 /* Button to toggle section visibility */
@@ -406,6 +477,76 @@ h2 {
 #message_submissions > * {
   margin: 5px 0;
 }
+
+
+/*---------------------------------------------------------------- ADMIN CONTROL PANEL ----------------------------------------------------------------*/
+#adminCreation .hstack {
+  gap: 1rem;
+}
+
+#admin-creation-error {
+  font-size: 1.5rem;
+  text-align: center;
+  color: red !important;
+  margin-bottom: 0.5rem;
+}
+
+#admin-creation-success {
+  font-size: 1.5rem;
+  text-align: center;
+  color: var(--theme) !important;
+  margin-bottom: 0.5rem;
+}
+
+#adminCreation .vstack {
+  align-items: flex-start;
+  background: var(--background-third);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: var(--background-secondary) 6px 6px 8px;
+}
+
+#adminCreation label, #adminCreation p {
+  font-weight: bold;
+  color: var(--theme-secondary);
+}
+
+#adminCreation input {
+  height: 2rem;
+  font-size: 1rem;
+  background: transparent;
+  border: solid 2px var(--text);
+  border-radius: 4px;
+  color: var(--text);
+  padding: 2px 6px;
+}
+
+#adminCreation input[type="text"] {
+  width: 20rem;
+}
+
+#superUserDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+}
+
+#superUserDiv input {
+  width: 1rem;
+  height: 1rem;
+}
+
+#superUserDiv:has(input:checked) {
+  color: var(--theme);
+}
+
+#createAdminButton {
+  font-size: 1rem;
+  font-weight: bold;
+  background: var(--theme-secondary);
+  padding: 3px 8px;
+}
 </style>
 
 
@@ -427,8 +568,9 @@ h2 {
 //-------------------------------------------------------------------- TOGGLING DISPLAY AREAS --------------------------------------------------------------------
 const displayPromoArea = ref(false);
 const displaySubmissions = ref(false);
-const isAdmin = ref(false);
+const isAdmin = ref(true);
 const displayAdminPanel = ref(false);
+const admins = ref([]);
 
 
 //-------------------------------------------------------------------- PROMOTION AREA --------------------------------------------------------------------
@@ -508,21 +650,86 @@ const dummyMessages = {
   }
 }
 
-//-------------------------------------------------------------------- HTTP REQUESTS --------------------------------------------------------------------
-const createAdmin = async() => {
-  try {
-    const admin = {
-      username: "usernameOne",
-      password: "passwordOne",
-      name: "It WORKS",
-    };
+//-------------------------------------------------------------------- ADMIN PANEL --------------------------------------------------------------------
+const admin_name = ref("");
+const admin_username = ref("");
+const admin_password = ref("");
+const admin_super = ref(false);
+const admin_errorMessage = ref("");
+const admin_success_message = ref("");
 
+const createAdmin = async () => {
+  if(admin_name.value.length === 0) {
+    admin_errorMessage.value = "Name cannot be empty";
+    return;
+  }
+  if(admin_username.value.length === 0) {
+    admin_errorMessage.value = "Username cannot be empty";
+    return;
+  }
+
+  if(admin_password.value.length === 0) {
+    admin_errorMessage.value = "Password cannot be empty";
+    return;
+  }
+
+  if(admin_username.value.indexOf(' ') >= 0) { // If there is a space
+    admin_errorMessage.value = "Username cannot contain spaces";
+    return;
+  }
+
+  if(admin_password.value.indexOf(' ') >= 0) { // If there is a space
+    admin_errorMessage.value = "Password cannot contain spaces";
+    return;
+  }
+
+  /*
+  console.log({
+    admin_name: admin_name.value,
+    admin_username: admin_username.value,
+    admin_password: admin_password.value,
+    admin_super: admin_super.value,
+  })
+  */
+  const admin = {
+    name: admin_name.value,
+    username: admin_username.value,
+    password: admin_password.value,
+    superUser: admin_super.value
+  }
+
+  try {
     await requests.postRequest(admin, "/admins/create")
         .then((response) => {
-          console.log(response);
+          admin_name.value = "";
+          admin_username.value = "";
+          admin_password.value = "";
+          admin_super.value = false;
+          admin_errorMessage.value = "";
+
+          admin_success_message.value = response.message;
+
+          fetchAdmins();
+
+          setTimeout(() => {
+            admin_success_message.value = "";
+          }, 5000)
         })
   } catch (error) {
     console.log(error)
+  }
+}
+
+const fetchAdmins = async() => {
+  if(isAdmin.value) {
+    try {
+      await requests.getRequest("/admins/getAll")
+          .then((response) => {
+            admins.value = response.adminList;
+          })
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 </script>
