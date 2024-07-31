@@ -6,7 +6,7 @@ module.exports = {
     async createMessage(req, res) {
         try {
             await Message.create(req.body);
-            res.status(200).send("Message added to message board.");
+            res.status(200).send({ message: "Message added to message board." });
         } catch (error) {
             handleError(res, error);
         }
@@ -26,7 +26,7 @@ module.exports = {
                 throw { type: 'notFound', message: 'No message found to delete.' };
             }
 
-            res.status(200).send(`Deleted: ${deletedCount} messages.`);
+            res.status(200).send({ message: `Deleted: ${deletedCount} messages.` });
         } catch (error) {
             handleError(res, error);
         }
@@ -46,7 +46,7 @@ module.exports = {
                 message: message
             });
 
-            res.status(200).send(`Message has been updated.`);
+            res.status(200).send({ message: `Message has been updated.` });
         } catch (error) {
             handleError(res, error);
         }
@@ -64,7 +64,7 @@ module.exports = {
                 order: [['id', 'DESC']]
             });
 
-            res.status(200).send(messages);
+            res.status(200).send({ messages: messages });
         } catch(error) {
             handleError(res, error);
         }
@@ -76,6 +76,6 @@ module.exports = {
             order: [['id', 'DESC']]
         });
 
-        res.status(200).send(messages);
+        res.status(200).send({ messages: messages });
     }
 }

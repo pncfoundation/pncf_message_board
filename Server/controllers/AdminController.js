@@ -5,7 +5,7 @@ module.exports = {
     async create(req, res) {
         try {
             const newAdmin = await Admin.create(req.body);
-            res.send(`${newAdmin.name} has been added as an admin.`);
+            res.status(200).send({ message: `${newAdmin.name} has been added as an admin.` });
         } catch (error) {
             handleError(res, error);
         }
@@ -29,7 +29,7 @@ module.exports = {
                 throw { type: 'notFound', message: 'Admin does not exist.' };
             }
 
-            res.status(200).send(`Admin has been deleted`);
+            res.status(200).send({ message: `Admin has been deleted` });
         } catch (error) {
             handleError(res, error);
         }
@@ -53,7 +53,7 @@ module.exports = {
                 throw { type: 'unauthorized', message: 'Password is incorrect.' };
             }
 
-            res.status(200).send("Authentication Successful.");
+            res.status(200).send({ message: "Authentication Successful." });
         } catch (error) {
             handleError(res, error);
         }
@@ -82,7 +82,7 @@ module.exports = {
                 superUser: true
             });
 
-            res.status(200).send(`${admin.name} has been elevated to super user!`);
+            res.status(200).send({ message: `${admin.name} has been elevated to super user!` });
         } catch (error) {
             handleError(res, error);
         }
@@ -111,7 +111,7 @@ module.exports = {
                 superUser: false
             });
 
-            res.status(200).send(`${admin.name}'s super user privileges have been revoked!`);
+            res.status(200).send({ message: `${admin.name}'s super user privileges have been revoked!` });
         } catch (error) {
             handleError(res, error);
         }
@@ -122,7 +122,7 @@ module.exports = {
             const admins = await Admin.findAll({
                 attributes: { exclude: ['username', 'password'] }
             });
-            res.status(200).send(admins);
+            res.status(200).send({ adminList: admins });
         } catch (error) {
             handleError(res, error);
         }

@@ -42,7 +42,7 @@ module.exports = {
                 return logData;
             });
 
-            res.status(200).send(formattedLogs);
+            res.status(200).send({ logs: formattedLogs });
         } catch(error) {
             handleError(res, error);
         }

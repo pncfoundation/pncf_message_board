@@ -5,7 +5,7 @@ module.exports = {
     async createSubmission(req, res) {
         try {
             await Submission.create(req.body);
-            res.status(200).send("Thank you. The PNCF will review your submission soon.");
+            res.status(200).send({ message: "Thank you. The PNCF will review your submission soon." });
         } catch (error) {
             handleError(res, error);
         }
@@ -23,7 +23,7 @@ module.exports = {
                 throw { type: 'notFound', message: 'No Submission found to delete.' };
             }
 
-            res.status(200).send(`Deleted ${deletedSubmissions} submission`);
+            res.status(200).send({ message: `Deleted ${deletedSubmissions} submission` });
         } catch (error) {
             handleError(res, error);
         }
@@ -37,7 +37,7 @@ module.exports = {
                 throw { type: 'notFound', message: 'No submissions found.' };
             }
 
-            res.status(200).send(submissions);
+            res.status(200).send({ submissions: submissions });
         } catch (error) {
             handleError(res, error);
         }
