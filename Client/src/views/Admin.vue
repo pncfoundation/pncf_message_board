@@ -19,7 +19,17 @@
 <!-------------------------------------------------------------------- PROMOTION AREA -------------------------------------------------------------------->
 
     <section>
-      <h1>Promotion Area</h1>
+      <div class="hstack">
+        <h1>Promotion Area</h1>
+        <button class="sectionToggling" @click="displayPromoArea = !displayPromoArea">
+          <svg v-if="displayPromoArea" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+            <path d="M39,4H11c-3.86,0-7,3.14-7,7v28c0,3.86,3.14,7,7,7h28c3.86,0,7-3.14,7-7V11C46,7.14,42.86,4,39,4z M39.7,19.71L25,33.31l-14.7-13.6c-0.4-0.39-0.4-1.02-0.01-1.41c0.39-0.4,1.02-0.4,1.41-0.01L25,30.49l13.3-12.2c0.39-0.39,1.02-0.39,1.41,0.01C40.1,18.69,40.1,19.32,39.7,19.71z"/>
+          </svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+            <path d="M4,11v28c0,3.86,3.14,7,7,7h28c3.86,0,7-3.14,7-7V11c0-3.86-3.14-7-7-7H11C7.14,4,4,7.14,4,11z M19.71,10.3L33.31,25l-13.6,14.7c-0.39,0.4-1.02,0.4-1.41,0.01c-0.4-0.39-0.4-1.02-0.01-1.41L30.49,25l-12.2-13.3c-0.39-0.39-0.39-1.02,0.01-1.41C18.69,9.9,19.32,9.9,19.71,10.3z"/>
+          </svg>
+        </button>
+      </div>
 
       <p class="centered">
         The promotion area is located on the side nav. This section can control what kind of grid layout the side nav will have and what to display in that area.
@@ -27,83 +37,96 @@
       </p>
 
 <!-------------------------------------------------------------------- CHOOSING GRID LAYOUT -------------------------------------------------------------------->
-      <div id="promotion_controls">
-        <h2 class="green">Choose Grid Layout</h2>
+      <div v-if="displayPromoArea">
+        <div id="promotion_controls">
+          <h2 class="green">Choose Grid Layout</h2>
 
-        <div class="hstack" id="promotion_grid_choices">
+          <div class="hstack" id="promotion_grid_choices">
 
-          <input type="radio" class="grid_radios" id="grid_one" name="grid_choices_radio" checked>
-          <label id="grid_label_one" for="grid_one">
-            <span class="item1"></span>
-          </label>
+            <input type="radio" class="grid_radios" id="grid_one" name="grid_choices_radio" checked>
+            <label id="grid_label_one" for="grid_one">
+              <span class="item1"></span>
+            </label>
 
-          <input type="radio" class="grid_radios" id="grid_two" name="grid_choices_radio">
-          <label id="grid_label_two" for="grid_two">
-            <span class="item1"></span>
-            <span class="item2"></span>
-          </label>
+            <input type="radio" class="grid_radios" id="grid_two" name="grid_choices_radio">
+            <label id="grid_label_two" for="grid_two">
+              <span class="item1"></span>
+              <span class="item2"></span>
+            </label>
 
-          <input type="radio" class="grid_radios" id="grid_three" name="grid_choices_radio">
-          <label id="grid_label_three" for="grid_three">
-            <span class="item1"></span>
-            <span class="item2"></span>
-            <span class="item3"></span>
-          </label>
+            <input type="radio" class="grid_radios" id="grid_three" name="grid_choices_radio">
+            <label id="grid_label_three" for="grid_three">
+              <span class="item1"></span>
+              <span class="item2"></span>
+              <span class="item3"></span>
+            </label>
 
-          <input type="radio" class="grid_radios" id="grid_four" name="grid_choices_radio">
-          <label id="grid_label_four" for="grid_four">
-            <span class="item1"></span>
-            <span class="item2"></span>
-            <span class="item3"></span>
-          </label>
+            <input type="radio" class="grid_radios" id="grid_four" name="grid_choices_radio">
+            <label id="grid_label_four" for="grid_four">
+              <span class="item1"></span>
+              <span class="item2"></span>
+              <span class="item3"></span>
+            </label>
+          </div>
         </div>
-      </div>
 
 <!-------------------------------------------------------------------- CHOOSING GRID MEDIA -------------------------------------------------------------------->
-      <h2 class="green">Choose Media to Display</h2>
+        <h2 class="green">Choose Media to Display</h2>
 
-      <div class="hstack" id="media_preview_controls">
-        <p id="select_grid_warning" hidden>Please select a grid layout.</p>
+        <div class="hstack" id="media_preview_controls">
+          <p id="select_grid_warning" hidden>Please select a grid layout.</p>
 
-        <div id="media_grid_preview">
-          <img src="@/assets/photos/gray.png" alt="Preview One" id="img_preview_one">
-          <img src="@/assets/photos/gray.png" alt="Preview One" id="img_preview_two">
-          <img src="@/assets/photos/gray.png" alt="Preview One" id="img_preview_three">
+          <div id="media_grid_preview">
+            <img src="@/assets/photos/gray.png" alt="Preview One" id="img_preview_one">
+            <img src="@/assets/photos/gray.png" alt="Preview One" id="img_preview_two">
+            <img src="@/assets/photos/gray.png" alt="Preview One" id="img_preview_three">
+          </div>
+
+          <div class="vstack" id="image_inputs">
+            <h3 id="image_option">
+              <input type="radio" name="image_option_radios" id="selectImages" checked>
+              <label for="selectImages">Select Images</label>
+              or
+              <input type="radio" name="image_option_radios" id="reUseImages">
+              <label for="reUseImages">Re-Use Images</label>
+            </h3>
+
+            <span class="spacer"></span>
+
+            <input type="file" accept="image/*" id="image_input_one" @change="previewImageOne">
+            <label for="image_input_one">
+              Select Image One
+            </label>
+
+            <input type="file" accept="image/*" id="image_input_two" @change="previewImageTwo">
+            <label for="image_input_one">
+              Select Image Two
+            </label>
+
+            <input type="file" accept="image/*" id="image_input_three" @change="previewImageThree">
+            <label for="image_input_one">
+              Select Image Three
+            </label>
+          </div>
         </div>
 
-        <div class="vstack" id="image_inputs">
-          <h3 id="image_option">
-            <input type="radio" name="image_option_radios" id="selectImages" checked>
-            <label for="selectImages">Select Images</label>
-            or
-            <input type="radio" name="image_option_radios" id="reUseImages">
-            <label for="reUseImages">Re-Use Images</label>
-          </h3>
-
-          <span class="spacer"></span>
-
-          <input type="file" accept="image/*" id="image_input_one" @change="previewImageOne">
-          <label for="image_input_one">
-            Select Image One
-          </label>
-
-          <input type="file" accept="image/*" id="image_input_two" @change="previewImageTwo">
-          <label for="image_input_one">
-            Select Image Two
-          </label>
-
-          <input type="file" accept="image/*" id="image_input_three" @change="previewImageThree">
-          <label for="image_input_one">
-            Select Image Three
-          </label>
-        </div>
       </div>
     </section>
 
     <br>
 <!-------------------------------------------------------------------- MESSAGE PANEL -------------------------------------------------------------------->
     <section>
-      <h1 @click="createAdmin">Message Control Panel</h1>
+      <div class="hstack">
+        <h1>Submission Control Panel</h1>
+        <button class="sectionToggling" @click="displaySubmissions = !displaySubmissions">
+          <svg v-if="displaySubmissions" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+            <path d="M39,4H11c-3.86,0-7,3.14-7,7v28c0,3.86,3.14,7,7,7h28c3.86,0,7-3.14,7-7V11C46,7.14,42.86,4,39,4z M39.7,19.71L25,33.31l-14.7-13.6c-0.4-0.39-0.4-1.02-0.01-1.41c0.39-0.4,1.02-0.4,1.41-0.01L25,30.49l13.3-12.2c0.39-0.39,1.02-0.39,1.41,0.01C40.1,18.69,40.1,19.32,39.7,19.71z"/>
+          </svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+            <path d="M4,11v28c0,3.86,3.14,7,7,7h28c3.86,0,7-3.14,7-7V11c0-3.86-3.14-7-7-7H11C7.14,4,4,7.14,4,11z M19.71,10.3L33.31,25l-13.6,14.7c-0.39,0.4-1.02,0.4-1.41,0.01c-0.4-0.39-0.4-1.02-0.01-1.41L30.49,25l-12.2-13.3c-0.39-0.39-0.39-1.02,0.01-1.41C18.69,9.9,19.32,9.9,19.71,10.3z"/>
+          </svg>
+        </button>
+      </div>
 
       <p class="centered">
         View messages users have submitted in this area. The section allows for the ability to accept, reject, and modify those messages. In for
@@ -112,7 +135,7 @@
       </p>
 
 
-      <div class="hstack">
+      <div class="hstack" v-if="displaySubmissions">
         <div class="vstack" id="message_submissions">
           <h2 class="green">Submissions</h2>
 
@@ -123,8 +146,21 @@
               :message="dummyMessages[index].message"
           ></submission>
         </div>
+      </div>
+    </section>
 
-
+<!-------------------------------------------------------------------- ADMIN PANEL -------------------------------------------------------------------->
+    <section>
+      <div class="hstack">
+        <h1>Admin Panel</h1>
+        <button class="sectionToggling" @click="displaySubmissions = !displaySubmissions">
+          <svg v-if="displaySubmissions" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+            <path d="M39,4H11c-3.86,0-7,3.14-7,7v28c0,3.86,3.14,7,7,7h28c3.86,0,7-3.14,7-7V11C46,7.14,42.86,4,39,4z M39.7,19.71L25,33.31l-14.7-13.6c-0.4-0.39-0.4-1.02-0.01-1.41c0.39-0.4,1.02-0.4,1.41-0.01L25,30.49l13.3-12.2c0.39-0.39,1.02-0.39,1.41,0.01C40.1,18.69,40.1,19.32,39.7,19.71z"/>
+          </svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+            <path d="M4,11v28c0,3.86,3.14,7,7,7h28c3.86,0,7-3.14,7-7V11c0-3.86-3.14-7-7-7H11C7.14,4,4,7.14,4,11z M19.71,10.3L33.31,25l-13.6,14.7c-0.39,0.4-1.02,0.4-1.41,0.01c-0.4-0.39-0.4-1.02-0.01-1.41L30.49,25l-12.2-13.3c-0.39-0.39-0.39-1.02,0.01-1.41C18.69,9.9,19.32,9.9,19.71,10.3z"/>
+          </svg>
+        </button>
       </div>
     </section>
   </main>
@@ -145,6 +181,22 @@ h1 {
 h2 {
   margin: 2rem 0 1rem 0;
 }
+
+/* Button to toggle section visibility */
+.sectionToggling {
+  background: transparent;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+}
+
+.sectionToggling > svg > path {
+  fill: var(--theme);
+}
+/*--------------------------------------------------------------- Section ---------------------------------------------------------------*/
+
+
 
 /*--------------------------------------------------------------- STYLING GRID CHOICES ---------------------------------------------------------------*/
 #promotion_grid_choices {
@@ -371,6 +423,13 @@ h2 {
 <script setup>
   import Submission from "@/components/Submission.vue";
   import requests from "@/server"
+  import {ref} from "vue";
+//-------------------------------------------------------------------- TOGGLING DISPLAY AREAS --------------------------------------------------------------------
+const displayPromoArea = ref(false);
+const displaySubmissions = ref(false);
+const isAdmin = ref(false);
+const displayAdminPanel = ref(false);
+
 
 //-------------------------------------------------------------------- PROMOTION AREA --------------------------------------------------------------------
 //  Functions to preview images when placed in the file input
