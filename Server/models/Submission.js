@@ -12,6 +12,7 @@ const Submission = localMessageBoard.define("Submission",
 
         date: {
             type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
             allowNull: false
         },
 

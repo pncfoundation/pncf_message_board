@@ -6,6 +6,7 @@
 const adminController = require('./controllers/AdminController');
 const logController = require('./controllers/LogController');
 const messageController = require('./controllers/MessageController');
+const submissionController = require('./controllers/SubmissionController');
 
 module.exports = (app) => {
     // Test Route
@@ -29,4 +30,8 @@ module.exports = (app) => {
     app.post('/messages/getByGroup', messageController.getMessageGroup);
     app.delete('/messages/delete', messageController.deleteMessage);
     app.get('/messages/getAll', messageController.getAllMessages);
+
+    app.post('/submissions/create', submissionController.createSubmission);
+    app.delete('/submissions/delete', submissionController.deleteSubmission);
+    app.get('/submissions/getAll', submissionController.getAllSubmissions);
 }

@@ -105,6 +105,8 @@ Ensure functions do not have same name
 
 For get groups (maybe add a get count function to get pages)
 
+Come back to fix notFound conditionals
+
 - Admin
   - Create a new Admin
   - authenticate

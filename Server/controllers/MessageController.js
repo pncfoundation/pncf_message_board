@@ -8,7 +8,7 @@ module.exports = {
             await Message.create(req.body);
             res.status(200).send("Message added to message board.");
         } catch (error) {
-            handleError(error);
+            handleError(res, error);
         }
     },
 
