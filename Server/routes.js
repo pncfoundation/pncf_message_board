@@ -30,7 +30,8 @@ module.exports = (app) => {
     app.post('/messages/modify', messageController.modifyMessage);
     app.post('/messages/getByGroup', messageController.getMessageGroup);
     app.delete('/messages/delete', messageController.deleteMessage);
-    app.get('/messages/getAll', messageController.getAllMessages);
+    app.get('/messages/count', messageController.getMessageCount);
+    // app.get('/messages/getAll', messageController.getAllMessages);
 
     app.post('/submissions/create', submissionController.createSubmission);
     app.delete('/submissions/delete', submissionController.deleteSubmission);

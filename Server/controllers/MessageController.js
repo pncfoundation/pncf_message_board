@@ -72,6 +72,14 @@ module.exports = {
         }
     },
 
+    async getMessageCount(req, res) {
+        try {
+            res.status(200).send({ count: await Message.count() });
+        } catch (error) {
+            handleError(res, error);
+        }
+    },
+
     /* Don't use this one ever. This was for early testing */
     async getAllMessages(req, res) {
         const messages = await Message.findAll({

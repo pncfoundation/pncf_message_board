@@ -17,7 +17,7 @@
 <script setup>
   const props = defineProps({
     date: {
-      type: Date,
+      type: String,
       required: true
     },
     message: {
@@ -45,7 +45,8 @@
     return `${hours}:${minutesStr}${ampm}`;
   };
 
-  const timeAgo = (date) => {
+  const timeAgo = (dateString) => {
+    const date = new Date(dateString);
     const now = new Date();
     const diff = now - date;
     const seconds = Math.floor(diff / 1000);
@@ -99,6 +100,11 @@
     font-size: 1.1rem;
   }
 
+  /*
+    This function is to be used if PNCF want to add a highlight function to the web app.
+    This one is for a span that goes on the right of the message with position: absolute
+   */
+  /*noinspection CssUnusedSymbol*/
   .message_highlight {
     width: 6px;
     height: 100%;
