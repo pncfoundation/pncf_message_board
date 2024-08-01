@@ -16,7 +16,8 @@ module.exports = {
             const { id } = req.body;
 
             if(id === 1) {
-                throw { type: 'unauthorized', message: 'Dr.Butcher cannot be deleted.' };
+                res.status(401).send();
+                return;
             }
 
             const deleted = await Admin.destroy({
@@ -26,7 +27,8 @@ module.exports = {
             });
 
             if(!deleted || deleted === 0) {
-                throw { type: 'notFound', message: 'Admin does not exist.' };
+                res.status(404).send();
+                return;
             }
 
             res.status(200).send({ message: `Admin has been deleted` });
@@ -46,11 +48,13 @@ module.exports = {
             });
 
             if (!admin) {
-                throw { type: 'notFound', message: 'No such user exists.' };
+                res.status(404).send();
+                return;
             }
 
             if(admin.password !== password) {
-                throw { type: 'unauthorized', message: 'Password is incorrect.' };
+                res.status(401).send();
+                return;
             }
 
             res.status(200).send({ message: "Authentication Successful." });
@@ -69,13 +73,15 @@ module.exports = {
                 }
             });
             if (!user || user.password !== password || user.superUser !== true) {
-                throw { type: 'unauthorized', message: 'Could not grant super user privileges.' };
+                res.status(401).send();
+                return;
             }
 
 
             const admin = await Admin.findByPk(id);
             if(!admin) {
-                throw { type: 'notFound', message: 'Could not get admin.' };
+                res.status(404).send();
+                return;
             }
 
             await admin.update({
@@ -98,13 +104,15 @@ module.exports = {
                 }
             });
             if (!user || user.password !== password || user.superUser !== true) {
-                throw { type: 'unauthorized', message: 'Could not revoke super user privileges.' };
+                res.status(401).send();
+                return;
             }
 
             const admin = await Admin.findByPk(id);
 
             if(!admin  || id === 1) {
-                throw { type: 'notFound', message: 'Could not get admin.' };
+                res.status(404).send();
+                return;
             }
 
             await admin.update({

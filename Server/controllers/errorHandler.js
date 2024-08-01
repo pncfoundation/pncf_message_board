@@ -32,16 +32,16 @@ const handleError = (res, error) => {
     // Assuming the error object contains a 'type' to distinguish error types
     switch (error.type) {
         case 'badRequest':
-            res.status(400).json(httpErrors.badRequest(error.message));
+            res.status(400).send();
             break;
         case 'unauthorized':
-            res.status(401).json(httpErrors.unauthorized(error.message));
+            res.status(401).send();
             break;
         case 'notFound':
-            res.status(404).json(httpErrors.notFound(error.message));
+            res.status(404).send();
             break;
         default:
-            res.status(500).json(httpErrors.internalServerError(error.message));
+            res.status(500).send();
             break;
     }
 };

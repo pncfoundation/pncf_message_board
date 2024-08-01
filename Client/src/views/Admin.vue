@@ -175,22 +175,52 @@
 
       <div id="admins" v-if="displayAdminPanel">
         <h2>Admin Table</h2>
+
+        <p v-if="adminListErrorMessage" id="admin-deletion-error">{{ adminListErrorMessage }}</p>
+
+        <p v-if="adminListSuccessMessage" id="admin-deletion-success">{{ adminListSuccessMessage }}</p>
+
+
+        <p class="centered">
+          View all admins here. Click on a super user cell to grant or reject super user privileges to that admin.
+          Click on a delete cell to delete that admin.
+        </p>
+
+        <br>
+
         <table id="admin_table">
           <thead>
             <tr>
-              <th>Id</th>
               <th>Name</th>
               <th>Super User</th>
               <th>Commits</th>
+              <th>Delete</th>
             </tr>
           </thead>
 
           <tbody>
             <tr v-for="admin in admins" :key="admin.id">
-              <td>{{ admin.id }}</td>
               <td>{{ admin.name }}</td>
-              <td :class="{ 'orange-b': admin.superUser}" >{{ admin.superUser ? "Yes" : "No" }}</td>
+              <td class="super_user_cell" >
+                <!--{{ admin.superUser ? "Yes" : "No" }}-->
+                <svg v-if="admin.superUser" fill="#40C057" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 64 64">
+                  <path d="M40.227,12C51.145,12,52,12.854,52,23.773v16.453C52,51.145,51.145,52,40.227,52H23.773C12.855,52,12,51.145,12,40.227	V23.773C12,12.854,12.855,12,23.773,12H40.227z M42.679,23.486c0.601-0.927,0.336-2.166-0.591-2.766	c-0.93-0.6-2.167-0.336-2.767,0.591l-9.709,14.986l-5.11-5.809c-0.729-0.829-1.994-0.911-2.823-0.18	c-0.829,0.729-0.91,1.993-0.181,2.823l6.855,7.791c0.382,0.433,0.93,0.679,1.502,0.679c0.049,0,0.098-0.002,0.146-0.005	c0.625-0.046,1.191-0.382,1.532-0.907L42.679,23.486z"/>
+                </svg>
+
+                <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                  <path style="fill:#F44336;" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"/>
+                  <path style="fill:#FFFFFF;" d="M29.656,15.516l2.828,2.828l-14.14,14.14l-2.828-2.828L29.656,15.516z"/>
+                  <path style="fill:#FFFFFF;" d="M32.484,29.656l-2.828,2.828l-14.14-14.14l2.828-2.828L32.484,29.656z"/>
+                </svg>
+              </td>
               <td>{{ admin.commits }}</td>
+              <td>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" @click="deleteAdmin(admin.id)">
+                  <path style="fill:#F44336;" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"/>
+                  <path style="fill:#FFFFFF;" d="M29.656,15.516l2.828,2.828l-14.14,14.14l-2.828-2.828L29.656,15.516z"/>
+                  <path style="fill:#FFFFFF;" d="M32.484,29.656l-2.828,2.828l-14.14-14.14l2.828-2.828L32.484,29.656z"/>
+                </svg>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -484,14 +514,14 @@ h2 {
   gap: 1rem;
 }
 
-#admin-creation-error {
+#admin-creation-error, #admin-deletion-error {
   font-size: 1.5rem;
   text-align: center;
   color: red !important;
   margin-bottom: 0.5rem;
 }
 
-#admin-creation-success {
+#admin-creation-success, #admin-deletion-success {
   font-size: 1.5rem;
   text-align: center;
   color: var(--theme) !important;
@@ -651,6 +681,8 @@ const dummyMessages = {
 }
 
 //-------------------------------------------------------------------- ADMIN PANEL --------------------------------------------------------------------
+const adminListErrorMessage = ref("");
+const adminListSuccessMessage = ref("");
 const admin_name = ref("");
 const admin_username = ref("");
 const admin_password = ref("");
@@ -731,5 +763,32 @@ const fetchAdmins = async() => {
       console.log(error);
     }
   }
+}
+
+const deleteAdmin = async(id) => {
+  try {
+    const data = {
+      id: id
+    }
+
+    await requests.deleteRequest(data, "/admins/delete")
+        .then((response) => {
+          adminListSuccessMessage.value = response.message;
+        })
+  } catch (error) {
+    if(error.type === 401) {
+      adminListErrorMessage.value = "Not authorized to delete this admin.";
+    }
+    else if(error.type === 404) {
+      adminListErrorMessage.value = "Could not find admin";
+    } else {
+      adminListErrorMessage.value = "Unknown Error";
+    }
+  }
+
+  setTimeout(() => {
+    adminListErrorMessage.value = "";
+    adminListSuccessMessage.value = "";
+  }, 5000);
 }
 </script>

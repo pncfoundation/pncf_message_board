@@ -199,6 +199,13 @@ button {
 table {
     width: 100%;
     height: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+}
+
+tbody tr:hover > * {
+    font-weight: bold;
+    text-decoration: underline;
 }
 
 th {
@@ -218,6 +225,12 @@ td {
     white-space: normal;
     min-width: 8rem;
     text-align: center;
+}
+
+td svg {
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
 }
 
 td:hover {

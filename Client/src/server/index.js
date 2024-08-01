@@ -36,10 +36,10 @@ module.exports = {
             body: JSON.stringify(data)
         });
 
-        const responseData = await response.json(); // Parse the JSON response
+        const responseData = await response.json();
         return {
-            status: response.status, // Get the status code
-            message: responseData.message // Get the message from the JSON response
+            status: response.status,
+            message: responseData.message
         };
     },
 
@@ -49,10 +49,14 @@ module.exports = {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: data.json()
+            body: JSON.stringify(data)
         })
 
-        return response.json();
+        const responseData = await response.json();
+        return {
+            status: response.status,
+            message: responseData.message
+        };
     },
 
     async deleteRequest(data, route) {
@@ -61,9 +65,13 @@ module.exports = {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: data.json()
+            body: JSON.stringify(data)
         })
 
-        return response.json();
+        if(!response.ok) {
+            throw { type: response.status };
+        } else {
+            return response.json();
+        }
     }
 }
