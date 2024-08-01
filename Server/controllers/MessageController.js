@@ -23,7 +23,8 @@ module.exports = {
 
             // If no message are deleted, throw a notFound error
             if(!deletedCount || deletedCount === 0) {
-                throw { type: 'notFound', message: 'No message found to delete.' };
+                res.status(404).send();
+                return;
             }
 
             res.status(200).send({ message: `Deleted: ${deletedCount} messages.` });
@@ -39,7 +40,8 @@ module.exports = {
             const messageDB = await Message.findByPk(id);
             // If message does not exist, throw a not found error
             if (!messageDB) {
-                throw { type: 'notFound', message: 'No message found.' };
+                res.status(404).send();
+                return;
             }
 
             await messageDB.update({

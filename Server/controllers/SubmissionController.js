@@ -20,7 +20,8 @@ module.exports = {
             });
 
             if (!deletedSubmissions || deletedSubmissions === 0) {
-                throw { type: 'notFound', message: 'No Submission found to delete.' };
+                res.status(404).send();
+                return;
             }
 
             res.status(200).send({ message: `Deleted ${deletedSubmissions} submission` });
@@ -34,7 +35,8 @@ module.exports = {
             const submissions = await Submission.findAll();
 
             if (!submissions) {
-                throw { type: 'notFound', message: 'No submissions found.' };
+                res.status(404).send();
+                return;
             }
 
             res.status(200).send({ submissions: submissions });
