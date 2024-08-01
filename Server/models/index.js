@@ -5,9 +5,6 @@ const Log = require('./Log');
 const Message = require('./Message');
 const Submission = require('./Submission');
 
-Admin.hasMany(Log, { foreignKey: "adminId" });
-Log.belongsTo(Admin, { foreignKey: "adminId" });
-
 const index = {
     Admin,
     Log,

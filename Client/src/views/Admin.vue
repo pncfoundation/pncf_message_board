@@ -176,9 +176,9 @@
       <div id="admins" v-if="displayAdminPanel">
         <h2>Admin Table</h2>
 
-        <p v-if="adminListErrorMessage" id="admin-deletion-error">{{ adminListErrorMessage }}</p>
+        <p v-if="adminListErrorMessage" class="error_message">{{ adminListErrorMessage }}</p>
 
-        <p v-if="adminListSuccessMessage" id="admin-deletion-success">{{ adminListSuccessMessage }}</p>
+        <p v-if="adminListSuccessMessage" class="success_message">{{ adminListSuccessMessage }}</p>
 
 
         <p class="centered">
@@ -202,12 +202,11 @@
             <tr v-for="admin in admins" :key="admin.id">
               <td>{{ admin.name }}</td>
               <td class="super_user_cell" >
-                <!--{{ admin.superUser ? "Yes" : "No" }}-->
-                <svg v-if="admin.superUser" fill="#40C057" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 64 64">
+                <svg v-if="admin.superUser" fill="#40C057" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 64 64" @click="toggleSuperAdmin(admin.id, admin.superUser)">
                   <path d="M40.227,12C51.145,12,52,12.854,52,23.773v16.453C52,51.145,51.145,52,40.227,52H23.773C12.855,52,12,51.145,12,40.227	V23.773C12,12.854,12.855,12,23.773,12H40.227z M42.679,23.486c0.601-0.927,0.336-2.166-0.591-2.766	c-0.93-0.6-2.167-0.336-2.767,0.591l-9.709,14.986l-5.11-5.809c-0.729-0.829-1.994-0.911-2.823-0.18	c-0.829,0.729-0.91,1.993-0.181,2.823l6.855,7.791c0.382,0.433,0.93,0.679,1.502,0.679c0.049,0,0.098-0.002,0.146-0.005	c0.625-0.046,1.191-0.382,1.532-0.907L42.679,23.486z"/>
                 </svg>
 
-                <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" @click="toggleSuperAdmin(admin.id, admin.superUser)">
                   <path style="fill:#F44336;" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"/>
                   <path style="fill:#FFFFFF;" d="M29.656,15.516l2.828,2.828l-14.14,14.14l-2.828-2.828L29.656,15.516z"/>
                   <path style="fill:#FFFFFF;" d="M32.484,29.656l-2.828,2.828l-14.14-14.14l2.828-2.828L32.484,29.656z"/>
@@ -226,11 +225,11 @@
         </table>
       </div>
 
-      <div id="adminCreation">
+      <div id="adminCreation" v-if="displayAdminPanel">
         <h2>Admin Creation</h2>
 
-        <p v-if="admin_errorMessage" id="admin-creation-error">{{ admin_errorMessage }}</p>
-        <p v-if="admin_success_message" id="admin-creation-success">{{ admin_success_message }}</p>
+        <p v-if="admin_errorMessage" class="error_message">{{ admin_errorMessage }}</p>
+        <p v-if="admin_success_message" class="success_message">{{ admin_success_message }}</p>
 
         <div class="hstack">
           <div class="vstack">
@@ -262,6 +261,57 @@
           <button id="createAdminButton" @click="createAdmin">Create Admin</button>
         </div>
       </div>
+    </section>
+
+
+<!-------------------------------------------------------------------- LOG PANEL -------------------------------------------------------------------->
+<br>
+    <section>
+      <div class="hstack">
+        <h1>Log Panel</h1>
+        <button class="sectionToggling" @click="displayLogPanel = !displayLogPanel; getLogs(1); getPages();">
+          <svg v-if="displayLogPanel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+            <path d="M39,4H11c-3.86,0-7,3.14-7,7v28c0,3.86,3.14,7,7,7h28c3.86,0,7-3.14,7-7V11C46,7.14,42.86,4,39,4z M39.7,19.71L25,33.31l-14.7-13.6c-0.4-0.39-0.4-1.02-0.01-1.41c0.39-0.4,1.02-0.4,1.41-0.01L25,30.49l13.3-12.2c0.39-0.39,1.02-0.39,1.41,0.01C40.1,18.69,40.1,19.32,39.7,19.71z"/>
+          </svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+            <path d="M4,11v28c0,3.86,3.14,7,7,7h28c3.86,0,7-3.14,7-7V11c0-3.86-3.14-7-7-7H11C7.14,4,4,7.14,4,11z M19.71,10.3L33.31,25l-13.6,14.7c-0.39,0.4-1.02,0.4-1.41,0.01c-0.4-0.39-0.4-1.02-0.01-1.41L30.49,25l-12.2-13.3c-0.39-0.39-0.39-1.02,0.01-1.41C18.69,9.9,19.32,9.9,19.71,10.3z"/>
+          </svg>
+        </button>
+      </div>
+
+      <p class="centered">
+        View what other admins have done on the site. Each move and change each admin has done will be recorded here.
+      </p>
+
+      <div v-if="displayLogPanel">
+        <div class="hstack" id="log_controls">
+          <button v-if="current_log_page !== 1" @click="getLogs(current_log_page - 1)"> < </button>
+          <button v-if="current_log_page !== log_pages" @click="getLogs(current_log_page + 1)"> > </button>
+        </div>
+
+        <br>
+
+        <p v-if="logErrorMessage" class="error_message">{{ logErrorMessage }}</p>
+
+        <table id="log_table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Admin</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr v-for="log in log" :key="log.id">
+              <td>{{ fixLogDate(log.date) }}</td>
+              <td>{{ log.admin }}</td>
+              <td>{{ log.action }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </section>
   </main>
 </template>
@@ -514,20 +564,6 @@ h2 {
   gap: 1rem;
 }
 
-#admin-creation-error, #admin-deletion-error {
-  font-size: 1.5rem;
-  text-align: center;
-  color: red !important;
-  margin-bottom: 0.5rem;
-}
-
-#admin-creation-success, #admin-deletion-success {
-  font-size: 1.5rem;
-  text-align: center;
-  color: var(--theme) !important;
-  margin-bottom: 0.5rem;
-}
-
 #adminCreation .vstack {
   align-items: flex-start;
   background: var(--background-third);
@@ -577,6 +613,31 @@ h2 {
   background: var(--theme-secondary);
   padding: 3px 8px;
 }
+
+#admin_table tr:hover > * {
+  font-weight: bold;
+  text-decoration: underline;
+}
+/*---------------------------------------------------------------- ADMIN CONTROL PANEL & DOWN ----------------------------------------------------------------*/
+
+.success_message {
+  font-size: 1.5rem;
+  text-align: center;
+  color: red !important;
+  margin-bottom: 0.5rem;
+}
+
+.error_message {
+  font-size: 1.5rem;
+  text-align: center;
+  color: var(--theme) !important;
+  margin-bottom: 0.5rem;
+}
+
+#log_controls button {
+  width: 2rem;
+  height: 2rem;
+}
 </style>
 
 
@@ -594,13 +655,13 @@ h2 {
 <script setup>
   import Submission from "@/components/Submission.vue";
   import requests from "@/server"
-  import {ref} from "vue";
+  import {onMounted, ref} from "vue";
 //-------------------------------------------------------------------- TOGGLING DISPLAY AREAS --------------------------------------------------------------------
 const displayPromoArea = ref(false);
 const displaySubmissions = ref(false);
-const isAdmin = ref(true);
+const isAdmin = ref(true); // Check user is an admin before calling functions
 const displayAdminPanel = ref(false);
-const admins = ref([]);
+const displayLogPanel = ref(false);
 
 
 //-------------------------------------------------------------------- PROMOTION AREA --------------------------------------------------------------------
@@ -648,147 +709,250 @@ const previewImageThree = () => {
 
 //-------------------------------------------------------------------- MESSAGE CONTROL --------------------------------------------------------------------
 const dummyMessages = {
-  mOne: {
-    date: new Date('2024-07-20T10:15:45'),
-    message: "This is not going to be a general purpose embedded language. It is way too heavy. For an embedded system, ESP32 is pretty high end as far as performance goes. Even in the video they show expected use case - IoT stuff that connects to Apple cloud. And for this it might be fine if it allows quick start.",
-    highlighted: false,
-    upvotes: 10
-  },
-  mTwo: {
-    date: new Date('2024-07-14T16:45:30'),
-    message: "Interesting announcement! Personally, I'd rather see big companies invest in more open source and existing C/C++ alternatives like Rust or Zig so that we don't get too much fragmentation. But I'll take investment in any language over none! I wonder how low level it will be. I've noticed in the past that \"embedded\" for large tech companies can mean a RaspberryPi (I'm thinking of AWS Greengrass).",
-    highlighted: false,
-  },
-  mThree: {
-    date: new Date('2021-05-20T23:10:05'),
-    message: "They demo it on ESP32. It is still not embedded enough. They support a decent subset of the language, which automatically requires heap allocations. They disabled some introspection and 'any ' type support, so at least RTTI is not required.\n" +
-        "\n" +
-        "But you still will need an MCU with enough SRAM to support meaningful heap.",
-    upvotes: 10
-  },
-  mFour: {
-    date: new Date('2020-01-10T05:25:30'),
-    message: "So we can add a handful more syntaxes, increase tool chain complexity, and tie ourselves to a company famous for its walled gardens and closed platforms? Sign me up.",
-  },
-  mFive: {
-    date: new Date('2019-08-25T16:55:45'),
-    message: "It’s actually been available for a while now.\n" +
-        "\n" +
-        "https://www.swift.org/blog/embedded-swift-examples/\n" +
-        "\n" +
-        "Important stuff to remember. This is not the same swift as you know it. It looks the same, but it’s way more limited in what you can do. You can’t just load libraries like Alamofire and use it. But, let’s say string manipulation is mostly the same. Most of the code produced for embedded swift - is compileable on mac, but won’t work the other way around"
+    mOne: {
+      date: new Date('2024-07-20T10:15:45'),
+      message: "This is not going to be a general purpose embedded language. It is way too heavy. For an embedded system, ESP32 is pretty high end as far as performance goes. Even in the video they show expected use case - IoT stuff that connects to Apple cloud. And for this it might be fine if it allows quick start.",
+      highlighted: false,
+      upvotes: 10
+    },
+    mTwo: {
+      date: new Date('2024-07-14T16:45:30'),
+      message: "Interesting announcement! Personally, I'd rather see big companies invest in more open source and existing C/C++ alternatives like Rust or Zig so that we don't get too much fragmentation. But I'll take investment in any language over none! I wonder how low level it will be. I've noticed in the past that \"embedded\" for large tech companies can mean a RaspberryPi (I'm thinking of AWS Greengrass).",
+      highlighted: false,
+    },
+    mThree: {
+      date: new Date('2021-05-20T23:10:05'),
+      message: "They demo it on ESP32. It is still not embedded enough. They support a decent subset of the language, which automatically requires heap allocations. They disabled some introspection and 'any ' type support, so at least RTTI is not required.\n" +
+          "\n" +
+          "But you still will need an MCU with enough SRAM to support meaningful heap.",
+      upvotes: 10
+    },
+    mFour: {
+      date: new Date('2020-01-10T05:25:30'),
+      message: "So we can add a handful more syntaxes, increase tool chain complexity, and tie ourselves to a company famous for its walled gardens and closed platforms? Sign me up.",
+    },
+    mFive: {
+      date: new Date('2019-08-25T16:55:45'),
+      message: "It’s actually been available for a while now.\n" +
+          "\n" +
+          "https://www.swift.org/blog/embedded-swift-examples/\n" +
+          "\n" +
+          "Important stuff to remember. This is not the same swift as you know it. It looks the same, but it’s way more limited in what you can do. You can’t just load libraries like Alamofire and use it. But, let’s say string manipulation is mostly the same. Most of the code produced for embedded swift - is compileable on mac, but won’t work the other way around"
+    }
   }
-}
 
 //-------------------------------------------------------------------- ADMIN PANEL --------------------------------------------------------------------
-const adminListErrorMessage = ref("");
-const adminListSuccessMessage = ref("");
-const admin_name = ref("");
-const admin_username = ref("");
-const admin_password = ref("");
-const admin_super = ref(false);
-const admin_errorMessage = ref("");
-const admin_success_message = ref("");
+  const admins = ref([]);
+  const adminListErrorMessage = ref("");
+  const adminListSuccessMessage = ref("");
+  const admin_name = ref("");
+  const admin_username = ref("");
+  const admin_password = ref("");
+  const admin_super = ref(false);
+  const admin_errorMessage = ref("");
+  const admin_success_message = ref("");
 
-const createAdmin = async () => {
-  if(admin_name.value.length === 0) {
-    admin_errorMessage.value = "Name cannot be empty";
-    return;
-  }
-  if(admin_username.value.length === 0) {
-    admin_errorMessage.value = "Username cannot be empty";
-    return;
-  }
-
-  if(admin_password.value.length === 0) {
-    admin_errorMessage.value = "Password cannot be empty";
-    return;
-  }
-
-  if(admin_username.value.indexOf(' ') >= 0) { // If there is a space
-    admin_errorMessage.value = "Username cannot contain spaces";
-    return;
+  const fetchAdmins = async() => {
+    if(isAdmin.value) {
+      try {
+        await requests.getRequest("/admins/getAll")
+            .then((response) => {
+              admins.value = response.adminList;
+            })
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
-  if(admin_password.value.indexOf(' ') >= 0) { // If there is a space
-    admin_errorMessage.value = "Password cannot contain spaces";
-    return;
-  }
+  const createAdmin = async () => {
+    if(admin_name.value.length === 0) {
+      admin_errorMessage.value = "Name cannot be empty";
+      return;
+    }
+    if(admin_username.value.length === 0) {
+      admin_errorMessage.value = "Username cannot be empty";
+      return;
+    }
 
-  /*
-  console.log({
-    admin_name: admin_name.value,
-    admin_username: admin_username.value,
-    admin_password: admin_password.value,
-    admin_super: admin_super.value,
-  })
-  */
-  const admin = {
-    name: admin_name.value,
-    username: admin_username.value,
-    password: admin_password.value,
-    superUser: admin_super.value
-  }
+    if(admin_password.value.length === 0) {
+      admin_errorMessage.value = "Password cannot be empty";
+      return;
+    }
 
-  try {
-    await requests.postRequest(admin, "/admins/create")
-        .then((response) => {
-          admin_name.value = "";
-          admin_username.value = "";
-          admin_password.value = "";
-          admin_super.value = false;
-          admin_errorMessage.value = "";
+    if(admin_username.value.indexOf(' ') >= 0) { // If there is a space
+      admin_errorMessage.value = "Username cannot contain spaces";
+      return;
+    }
 
-          admin_success_message.value = response.message;
+    if(admin_password.value.indexOf(' ') >= 0) { // If there is a space
+      admin_errorMessage.value = "Password cannot contain spaces";
+      return;
+    }
 
-          fetchAdmins();
+    /*
+    console.log({
+      admin_name: admin_name.value,
+      admin_username: admin_username.value,
+      admin_password: admin_password.value,
+      admin_super: admin_super.value,
+    })
+    */
+    const admin = {
+      name: admin_name.value,
+      username: admin_username.value,
+      password: admin_password.value,
+      superUser: admin_super.value
+    }
 
-          setTimeout(() => {
-            admin_success_message.value = "";
-          }, 5000)
-        })
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-const fetchAdmins = async() => {
-  if(isAdmin.value) {
     try {
-      await requests.getRequest("/admins/getAll")
+      await requests.postRequest(admin, "/admins/create")
           .then((response) => {
-            admins.value = response.adminList;
+            admin_name.value = "";
+            admin_username.value = "";
+            admin_password.value = "";
+            admin_super.value = false;
+            admin_errorMessage.value = "";
+
+            admin_success_message.value = response.message;
+
+            fetchAdmins();
+
+            setTimeout(() => {
+              admin_success_message.value = "";
+            }, 5000)
           })
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
-}
 
-const deleteAdmin = async(id) => {
-  try {
-    const data = {
-      id: id
+  const deleteAdmin = async(id) => {
+    try {
+      const data = {
+        id: id
+      }
+
+      await requests.deleteRequest(data, "/admins/delete")
+          .then((response) => {
+            adminListSuccessMessage.value = response.message;
+            fetchAdmins();
+          })
+    } catch (error) {
+      if(error.type === 401) {
+        adminListErrorMessage.value = "Not authorized to delete this admin.";
+      }
+      else if(error.type === 404) {
+        adminListErrorMessage.value = "Could not find admin";
+      } else {
+        adminListErrorMessage.value = "Unknown Error";
+      }
     }
 
-    await requests.deleteRequest(data, "/admins/delete")
+    setTimeout(() => {
+      adminListErrorMessage.value = "";
+      adminListSuccessMessage.value = "";
+    }, 5000);
+  }
+
+  const toggleSuperAdmin = async(id, currentStatus) => {
+    const route = currentStatus ? "/admins/revoke" : "/admins/super";
+
+    try {
+      const data = {
+        id: id
+      }
+
+      await requests.putRequest(data, route)
+          .then((response) => {
+            adminListSuccessMessage.value = response.message;
+            fetchAdmins();
+          })
+
+      setTimeout(() => {
+        adminListErrorMessage.value = "";
+        adminListSuccessMessage.value = "";
+      }, 5000);
+    } catch (error) {
+      if(error.type === 401) {
+        adminListErrorMessage.value = "Not authorized to modify this admin.";
+      }
+      else if(error.type === 404) {
+        adminListErrorMessage.value = "Could not find admin";
+      } else {
+        adminListErrorMessage.value = "Unknown Error";
+      }
+    }
+  }
+
+
+//-------------------------------------------------------------------- LOG PANEL --------------------------------------------------------------------
+  const log = ref([]);
+  const log_pages = ref();
+  const current_log_page = ref(1);
+  const logErrorMessage = ref("");
+
+  const getLogs = async (page) => {
+    try {
+      const data = {
+        group: page
+      };
+
+      await requests.postRequest(data, "/logs/getGroup")
+          .then((response) => {
+            log.value = response.logs;
+          })
+
+      current_log_page.value = page;
+    } catch (error) {
+      logErrorMessage.value = error.message
+
+      setTimeout(() => {
+        logErrorMessage.value = "";
+      }, 5000);
+    }
+  }
+
+  const fixLogDate = (datetime) => {
+    const date = new Date(datetime);
+
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'pm' : 'am';
+
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+
+    return `${month}/${day}/${year} at ${hours}:${minutes}${ampm}`;
+  }
+
+  const getPages = async () => {
+    try {
+      await requests.getRequest("/logs/count")
         .then((response) => {
-          adminListSuccessMessage.value = response.message;
+          const pages = Math.floor(response.count / 20);
+          log_pages.value = response.count % 20 === 0 ? pages : pages + 1;
+          console.log(
+              `
+              response.count % 20: ${response.count % 20} \n
+              pages: ${pages} \n
+              log_pages.value: ${log_pages.value}
+              `)
         })
-  } catch (error) {
-    if(error.type === 401) {
-      adminListErrorMessage.value = "Not authorized to delete this admin.";
-    }
-    else if(error.type === 404) {
-      adminListErrorMessage.value = "Could not find admin";
-    } else {
-      adminListErrorMessage.value = "Unknown Error";
+    } catch (error) {
+      setTimeout(() => {
+        logErrorMessage.value = error.message
+
+        logErrorMessage.value = "";
+      }, 5000);
     }
   }
 
-  setTimeout(() => {
-    adminListErrorMessage.value = "";
-    adminListSuccessMessage.value = "";
-  }, 5000);
-}
+  onMounted(() => {
+    getPages();
+  })
 </script>

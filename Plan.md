@@ -141,3 +141,11 @@ ___
   - Messages on the message board may have a numerical indicator for # of replies
   - Indicator opens a page or dialog with that messages thread
 - Notification system
+- Board Guidelines
+  - Make Orange
+  - Reduce to simple rules
+  - Have full guidelines on about
+  - Notify at bottom more complete rules in about page
+- Implement log logging in every http request
+- Store who is logged in
+- Verify admin existence before calling https requests

@@ -1,6 +1,5 @@
 const { DataTypes } = require("sequelize");
 const { localMessageBoard } = require("../databases");
-const Admin = require("./Admin");
 
 const Log = localMessageBoard.define("Log",
     {
@@ -21,12 +20,9 @@ const Log = localMessageBoard.define("Log",
             allowNull: false
         },
 
-        adminId: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: Admin,
-                key: 'id',
-            }
+        admin: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     },
 

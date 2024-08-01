@@ -24,7 +24,11 @@ module.exports = {
             }
         });
 
-        return response.json();
+        if(!response.ok) {
+            throw { type: response.status };
+        } else {
+            return response.json();
+        }
     },
 
     async postRequest(data, route) {
@@ -36,11 +40,11 @@ module.exports = {
             body: JSON.stringify(data)
         });
 
-        const responseData = await response.json();
-        return {
-            status: response.status,
-            message: responseData.message
-        };
+        if(!response.ok) {
+            throw { type: response.status };
+        } else {
+            return response.json();
+        }
     },
 
     async putRequest(data, route) {
@@ -52,11 +56,11 @@ module.exports = {
             body: JSON.stringify(data)
         })
 
-        const responseData = await response.json();
-        return {
-            status: response.status,
-            message: responseData.message
-        };
+        if(!response.ok) {
+            throw { type: response.status };
+        } else {
+            return response.json();
+        }
     },
 
     async deleteRequest(data, route) {

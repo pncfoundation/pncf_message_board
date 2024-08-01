@@ -23,6 +23,7 @@ module.exports = (app) => {
 
     app.post('/logs/create', logController.create);
     app.post('/logs/getGroup', logController.getGroup);
+    app.get('/logs/count', logController.getCount)
     // app.get('/logs/getAll', logController.getAll);
 
     app.post('/messages/create', messageController.createMessage);

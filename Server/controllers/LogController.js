@@ -1,18 +1,12 @@
-const { Log, Admin} = require('../models');
+const { Log } = require('../models');
 const { handleError } = require('./errorHandler');
 
 module.exports = {
     async create(req, res) {
+        console.log(req.body);
         try {
-            const { adminId } = req.body;
-            const admin = await Admin.findByPk(adminId);
-
-            if(!admin) {
-                req.body.adminId = null;
-            }
-
             await Log.create(req.body);
-            res.status(200).send("");
+            res.status(200).send("Logged");
         } catch(error) {
             handleError(res, error);
         }
@@ -25,28 +19,23 @@ module.exports = {
             const offset = (group - 1) * limit;
 
             const logs = await Log.findAll({
-                include: [{
-                    model: Admin,
-                    attributes: ["name"]
-                }],
-
                 limit: limit,
                 offset: offset,
                 order: [['id', 'DESC']]
             });
-
-            const formattedLogs = logs.map(log => {
-                const logData = log.toJSON();
-                logData.adminName = logData.Admin ? logData.Admin.name : "Unknown";
-                delete logData.Admin;
-                return logData;
-            });
-
-            res.status(200).send({ logs: formattedLogs });
+            res.status(200).send({ logs: logs });
         } catch(error) {
             handleError(res, error);
         }
     },
+
+    async getCount(req, res) {
+        try {
+            res.status(200).send({ count: await Log.count() });
+        } catch (error) {
+            handleError(res, error);
+        }
+    }
 
     /* Don't use this one ever. This was for early testing
     async getAll(req, res) {

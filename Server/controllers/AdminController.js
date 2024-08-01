@@ -65,18 +65,11 @@ module.exports = {
 
     async grantSuper(req, res) {
         try {
-            const { username, password, id } = req.body;
+            const { id } = req.body;
 
-            const user = await Admin.findOne({
-                where: {
-                    username: username
-                }
-            });
-            if (!user || user.password !== password || user.superUser !== true) {
+            if(id === 1) {
                 res.status(401).send();
-                return;
             }
-
 
             const admin = await Admin.findByPk(id);
             if(!admin) {
@@ -96,21 +89,16 @@ module.exports = {
 
     async revokeSuper(req, res) {
         try {
-            const { username, password, id } = req.body;
+            const { id } = req.body;
 
-            const user = await Admin.findOne({
-                where: {
-                    username: username
-                }
-            });
-            if (!user || user.password !== password || user.superUser !== true) {
+            if (id === 1) {
                 res.status(401).send();
                 return;
             }
 
             const admin = await Admin.findByPk(id);
 
-            if(!admin  || id === 1) {
+            if(!admin) {
                 res.status(404).send();
                 return;
             }
