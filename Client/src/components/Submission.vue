@@ -9,7 +9,7 @@
     <textarea class="message_content" id="area" @input="adjustTextareaHeight">{{ message }}</textarea>
 
     <div class="hstack message_ui">
-      <svg class="message_svg" id="reject" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+      <svg class="message_svg" id="reject" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" @click="reject">
         <path style="fill:#F44336;" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"/>
         <path style="fill:#FFFFFF;" d="M29.656,15.516l2.828,2.828l-14.14,14.14l-2.828-2.828L29.656,15.516z"/>
         <path style="fill:#FFFFFF;" d="M32.484,29.656l-2.828,2.828l-14.14-14.14l2.828-2.828L32.484,29.656z"/>
@@ -38,7 +38,7 @@ Feel free to implement these whenever.
 -->
       <span class="spacer"></span>
 
-      <svg class="message_svg" id="accept" fill="#40C057" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 64 64">
+      <svg class="message_svg" id="accept" fill="#40C057" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 64 64" @click="accept">
         <path d="M40.227,12C51.145,12,52,12.854,52,23.773v16.453C52,51.145,51.145,52,40.227,52H23.773C12.855,52,12,51.145,12,40.227	V23.773C12,12.854,12.855,12,23.773,12H40.227z M42.679,23.486c0.601-0.927,0.336-2.166-0.591-2.766	c-0.93-0.6-2.167-0.336-2.767,0.591l-9.709,14.986l-5.11-5.809c-0.729-0.829-1.994-0.911-2.823-0.18	c-0.829,0.729-0.91,1.993-0.181,2.823l6.855,7.791c0.382,0.433,0.93,0.679,1.502,0.679c0.049,0,0.098-0.002,0.146-0.005	c0.625-0.046,1.191-0.382,1.532-0.907L42.679,23.486z"/>
       </svg>
     </div>
@@ -51,12 +51,24 @@ Feel free to implement these whenever.
 import {onMounted} from "vue";
 
 const props = defineProps({
+  id: {
+    type: Number,
+    required: true
+  },
   date: {
-    type: Date,
+    type: String,
     required: true
   },
   message: {
     type: String,
+    required: true
+  },
+  reject: {
+    type: Function,
+    required: true
+  },
+  accept: {
+    type: Function,
     required: true
   },
   // highlighted: {
@@ -70,7 +82,8 @@ const props = defineProps({
 })
 
 // Returns how long ago the post was made. Ex: 3 minutes ago
-const timeAgo = (date) => {
+const timeAgo = (dateString) => {
+  const date = new Date(dateString);
   const now = new Date();
   const diff = now - date;
   const seconds = Math.floor(diff / 1000);
@@ -105,6 +118,15 @@ function adjustTextareaHeight() {
     area.style.height = 'auto'; // Reset the height to auto
     area.style.height = (area.scrollHeight) + 'px';
   })
+}
+
+const reject = async () => {
+  await props.reject(props.id);
+}
+
+const accept = async () => {
+  const date = new Date(props.date);
+  await props.accept(props.id, date, props.message);
 }
 
 // This is the function that is called immediately after the page loads.
@@ -146,6 +168,8 @@ onMounted(() => {
   resize: none;
 }
 
+/* Used for highlight function incase PNCF wants to add the ability to highlight */
+/*noinspection CssUnusedSymbol*/
 .message_highlight {
   width: 6px;
   height: 100%;

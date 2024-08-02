@@ -73,12 +73,6 @@
           .then((response) => {
             const pages = Math.floor(response.count / 20);
             totalMessagePages.value = response.count % 20 === 0 ? pages : pages + 1;
-            console.log(
-                `
-              response.count % 20: ${response.count % 20} \n
-              pages: ${pages} \n
-              log_pages.value: ${totalMessagePages.value}
-              `)
             messagesError.value = "";
           })
     } catch (error) {

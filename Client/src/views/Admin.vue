@@ -118,7 +118,7 @@
     <section>
       <div class="hstack">
         <h1>Submission Control Panel</h1>
-        <button class="sectionToggling" @click="displaySubmissions = !displaySubmissions">
+        <button class="sectionToggling" @click="displaySubmissions = !displaySubmissions; loadMessages();">
           <svg v-if="displaySubmissions" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
             <path d="M39,4H11c-3.86,0-7,3.14-7,7v28c0,3.86,3.14,7,7,7h28c3.86,0,7-3.14,7-7V11C46,7.14,42.86,4,39,4z M39.7,19.71L25,33.31l-14.7-13.6c-0.4-0.39-0.4-1.02-0.01-1.41c0.39-0.4,1.02-0.4,1.41-0.01L25,30.49l13.3-12.2c0.39-0.39,1.02-0.39,1.41,0.01C40.1,18.69,40.1,19.32,39.7,19.71z"/>
           </svg>
@@ -129,25 +129,34 @@
       </div>
 
       <p class="centered">
-        View messages users have submitted in this area. The section allows for the ability to accept, reject, and modify those messages. In for
-        this message board to remain as a safe space, there is a need to moderate how these messages will look like. If only a part of the
-        message is inappropriate, then it may be omitted with *, but if it is more serious, it can be rejected. All the messages are text areas
-        which you can edit before submitting.
+        View messages users have <span class="orange">submitted</span> in this area. The section allows for the ability to <span class="orange">accept</span>, <span class="orange">reject</span>,
+        and <span class="orange">modify</span> those messages. In order for
+        this message board to remain as a safe space, there is a need to <span class="orange">moderate</span> how these messages will look like. If only a part of the
+        message is inappropriate, then it may be <span class="orange">omitted</span> with <span class="orange">*</span>, but if it is more serious, it can be <span class="orange">rejected</span>.
+        All the messages are text areas which you can edit before submitting.
+
+        <br>
+
+        Submissions will be added to the message board in the order they were submitted <span class="orange">regardless</span> of when they are accepted.
       </p>
 
 
-      <div class="hstack" v-if="displaySubmissions">
+      <h2 v-if="displaySubmissions">Submissions</h2>
         <div class="vstack" id="message_submissions">
-          <h2>Submissions</h2>
+
+          <p v-if="submissionSuccess" class="success_message">{{ submissionSuccess }}</p>
+          <p v-if="submissionError" class="error_message">{{ submissionError }}</p>
 
           <submission
-              v-for="(message, index) in dummyMessages"
-              :key="index"
-              :date="dummyMessages[index].date"
-              :message="dummyMessages[index].message"
+              v-for="submission in submissions"
+              :key="submission.id"
+              :id="submission.id"
+              :date="submission.date"
+              :message="submission.message"
+              :reject ="rejectSuggestion"
+              :accept ="acceptSubmission"
           ></submission>
         </div>
-      </div>
     </section>
 
 <!-------------------------------------------------------------------- ADMIN PANEL -------------------------------------------------------------------->
@@ -615,19 +624,18 @@ h2 {
 }
 
 #admin_table tr:hover > * {
-  font-weight: bold;
   text-decoration: underline;
 }
 /*---------------------------------------------------------------- ADMIN CONTROL PANEL & DOWN ----------------------------------------------------------------*/
 
-.success_message {
+.error_message {
   font-size: 1.5rem;
   text-align: center;
   color: red !important;
   margin-bottom: 0.5rem;
 }
 
-.error_message {
+.success_message {
   font-size: 1.5rem;
   text-align: center;
   color: var(--theme) !important;
@@ -707,7 +715,63 @@ const previewImageThree = () => {
 }
 
 
-//-------------------------------------------------------------------- MESSAGE CONTROL --------------------------------------------------------------------
+//-------------------------------------------------------------------- SUBMISSION CONTROL --------------------------------------------------------------------+
+  const submissions = ref([]);
+  const submissionSuccess = ref("");
+  const submissionError = ref("");
+
+  const loadMessages = async () => {
+    try {
+      await requests.getRequest("/submissions/getAll")
+          .then((response) => {
+            submissions.value = response.submissions;
+            submissionError.value = "";
+          })
+
+    } catch (error) {
+      submissionError.value = error.message
+    }
+  };
+
+  const rejectSuggestion = async (id) =>  {
+    try {
+      await requests.deleteRequest({id: id}, `/submissions/delete`)
+        .then((response) => {
+          submissionSuccess.value = response.message;
+          submissionError.value = "";
+          loadMessages();
+
+          setTimeout(() => {
+            submissionSuccess.value = "";
+          }, 5000);
+        })
+    } catch (error) {
+      submissionError.value = error.message
+    }
+  }
+
+  const acceptSubmission = async (id, date, message) =>  {
+    try {
+      const data = {
+        date: date,
+        message: message
+      };
+      await Promise.all([requests.postRequest(data, '/messages/create'), requests.deleteRequest({id: id}, '/submissions/delete')])
+        .then(() => {
+          submissionSuccess.value = "Submission accepted and added to message board.";
+          submissionError.value = "";
+
+          setTimeout(() => {
+            submissionSuccess.value = "";
+          }, 5000);
+        });
+    } catch (error) {
+      submissionError.value = error.message
+    }
+
+    await loadMessages();
+  }
+
 const dummyMessages = {
     mOne: {
       date: new Date('2024-07-20T10:15:45'),
@@ -932,12 +996,6 @@ const dummyMessages = {
         .then((response) => {
           const pages = Math.floor(response.count / 20);
           log_pages.value = response.count % 20 === 0 ? pages : pages + 1;
-          console.log(
-              `
-              response.count % 20: ${response.count % 20} \n
-              pages: ${pages} \n
-              log_pages.value: ${log_pages.value}
-              `)
         })
     } catch (error) {
       setTimeout(() => {

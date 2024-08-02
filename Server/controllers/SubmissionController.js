@@ -24,7 +24,7 @@ module.exports = {
                 return;
             }
 
-            res.status(200).send({ message: `Deleted ${deletedSubmissions} submission` });
+            res.status(200).send({ message: "Submission was deleted." });
         } catch (error) {
             handleError(res, error);
         }
