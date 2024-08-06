@@ -1,6 +1,31 @@
 <template>
-  <main>
+  <main v-if="!isAdmin" id="admin_login" class="vstack">
+    <h1>Admin Console Log In</h1>
+
+    <div class="vstack" id="login_form">
+      <div class="hstack">
+        <input type="text" id="admin_username">
+        <label for="admin_username">Username:</label>
+      </div>
+
+      <div class="hstack">
+        <input type="password" id="admin_password">
+        <label for="admin_password">Password:</label>
+      </div>
+
+      <button id="login_btn" @click="admin_authentication">Login</button>
+    </div>
+
+    <p class="error_message" v-if="login_error">{{ login_error }}</p>
+  </main>
+
+  <main v-else>
 <!-------------------------------------------------------------------- ABOUT -------------------------------------------------------------------->
+    <h1 class="orange" id="admin_greeting">
+      Hello
+      <span class="green cFont">{{ admin_fetched_name }}</span>
+    </h1>
+
     <h1>Admin Board</h1>
 
     <p class="centered">
@@ -142,27 +167,27 @@
 
 
       <h2 v-if="displaySubmissions">Submissions</h2>
-        <div class="vstack" id="message_submissions">
+      <div class="vstack" id="message_submissions" v-if="displaySubmissions">
 
-          <p v-if="submissionSuccess" class="success_message">{{ submissionSuccess }}</p>
-          <p v-if="submissionError" class="error_message">{{ submissionError }}</p>
+        <p v-if="submissionSuccess" class="success_message">{{ submissionSuccess }}</p>
+        <p v-if="submissionError" class="error_message">{{ submissionError }}</p>
 
-          <submission
-              v-for="submission in submissions"
-              :key="submission.id"
-              :id="submission.id"
-              :date="submission.date"
-              :message="submission.message"
-              :reject ="rejectSuggestion"
-              :accept ="acceptSubmission"
-          ></submission>
-        </div>
+        <submission
+            v-for="submission in submissions"
+            :key="submission.id"
+            :id="submission.id"
+            :date="submission.date"
+            :message="submission.message"
+            :reject ="rejectSuggestion"
+            :accept ="acceptSubmission"
+        ></submission>
+      </div>
     </section>
 
 <!-------------------------------------------------------------------- ADMIN PANEL -------------------------------------------------------------------->
     <br>
 
-    <section>
+    <section v-if="isSuperUser">
       <div class="hstack">
         <h1>Admin Panel</h1>
         <button class="sectionToggling" @click="displayAdminPanel = !displayAdminPanel; fetchAdmins();">
@@ -275,7 +300,7 @@
 
 <!-------------------------------------------------------------------- LOG PANEL -------------------------------------------------------------------->
 <br>
-    <section>
+    <section v-if="isSuperUser">
       <div class="hstack">
         <h1>Log Panel</h1>
         <button class="sectionToggling" @click="displayLogPanel = !displayLogPanel; getLogs(1); getPages();">
@@ -354,9 +379,40 @@ h2 {
 .sectionToggling > svg > path {
   fill: var(--theme);
 }
-/*--------------------------------------------------------------- Section ---------------------------------------------------------------*/
+/*--------------------------------------------------------------- Login Form ---------------------------------------------------------------*/
+#login_form {
+  width: clamp(20rem, 35rem, 50dvw) !important;
+}
 
+#login_form .hstack label {
+  order: -1;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
 
+#login_form .hstack input {
+  height: 1.5rem;
+  font-size: 1.1rem;
+  padding: .5rem;
+  background: transparent;
+  color: var(--text);
+  border: solid 2px var(--text);
+  border-radius: 8px;
+  min-width: 20rem;
+}
+
+#login_btn {
+  padding: .4rem .8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  background: var(--theme-secondary);
+}
+/*--------------------------------------------------------------- Greeting ---------------------------------------------------------------*/
+
+#admin_greeting {
+  align-self: flex-end;
+}
 
 /*--------------------------------------------------------------- STYLING GRID CHOICES ---------------------------------------------------------------*/
 #promotion_grid_choices {
@@ -665,11 +721,55 @@ h2 {
   import requests from "@/server"
   import {onMounted, ref} from "vue";
 //-------------------------------------------------------------------- TOGGLING DISPLAY AREAS --------------------------------------------------------------------
-const displayPromoArea = ref(false);
-const displaySubmissions = ref(false);
-const isAdmin = ref(true); // Check user is an admin before calling functions
-const displayAdminPanel = ref(false);
-const displayLogPanel = ref(false);
+  const displayPromoArea = ref(false);
+  const displaySubmissions = ref(false);
+  const isAdmin = ref(false); // Check user is an admin before calling functions
+  const isSuperUser = ref(false);
+  const displayAdminPanel = ref(false);
+  const displayLogPanel = ref(false);
+  const admin_fetched_name = ref("");
+
+
+
+  //-------------------------------------------------------------------- LOGIN FORM --------------------------------------------------------------------
+  const login_error = ref("");
+
+  const admin_authentication = async () => {
+    if(!document.getElementById('admin_username').value || !document.getElementById('admin_password').value) {
+      login_error.value = "Fill in all fields."
+      return;
+    }
+
+    try {
+      const data = {
+        username: document.getElementById('admin_username').value,
+        password: document.getElementById('admin_password').value
+      };
+
+      await requests.postRequest(data, '/admins/authenticate')
+        .then((response) => {
+          login_error.value = "";
+          isSuperUser.value = response.superUser;
+          admin_fetched_name.value = response.name;
+          isAdmin.value = true;
+
+          document.getElementById('admin_username').value = "";
+          document.getElementById('admin_password').value = "";
+        })
+    } catch (error) {
+      switch (error.type) {
+        case 404:
+          login_error.value = "Account not found."
+          break;
+        case 401:
+          login_error.value = "Incorrect username or password"
+          break;
+        default:
+          login_error.value = "Unable to login."
+      }
+    }
+  }
+
 
 
 //-------------------------------------------------------------------- PROMOTION AREA --------------------------------------------------------------------
@@ -748,7 +848,7 @@ const previewImageThree = () => {
     } catch (error) {
       submissionError.value = error.message
     }
-  }
+  };
 
   const acceptSubmission = async (id, date, message) =>  {
     try {
@@ -770,35 +870,6 @@ const previewImageThree = () => {
     }
 
     await loadMessages();
-  }
-
-const dummyMessages = {
-    mOne: {
-      date: new Date('2024-07-20T10:15:45'),
-      message: "This is not going to be a general purpose embedded language. It is way too heavy. For an embedded system, ESP32 is pretty high end as far as performance goes. Even in the video they show expected use case - IoT stuff that connects to Apple cloud. And for this it might be fine if it allows quick start.",
-    },
-    mTwo: {
-      date: new Date('2024-07-14T16:45:30'),
-      message: "Interesting announcement! Personally, I'd rather see big companies invest in more open source and existing C/C++ alternatives like Rust or Zig so that we don't get too much fragmentation. But I'll take investment in any language over none! I wonder how low level it will be. I've noticed in the past that \"embedded\" for large tech companies can mean a RaspberryPi (I'm thinking of AWS Greengrass).",
-    },
-    mThree: {
-      date: new Date('2021-05-20T23:10:05'),
-      message: "They demo it on ESP32. It is still not embedded enough. They support a decent subset of the language, which automatically requires heap allocations. They disabled some introspection and 'any ' type support, so at least RTTI is not required.\n" +
-          "\n" +
-          "But you still will need an MCU with enough SRAM to support meaningful heap.",
-    },
-    mFour: {
-      date: new Date('2020-01-10T05:25:30'),
-      message: "So we can add a handful more syntaxes, increase tool chain complexity, and tie ourselves to a company famous for its walled gardens and closed platforms? Sign me up.",
-    },
-    mFive: {
-      date: new Date('2019-08-25T16:55:45'),
-      message: "It’s actually been available for a while now.\n" +
-          "\n" +
-          "https://www.swift.org/blog/embedded-swift-examples/\n" +
-          "\n" +
-          "Important stuff to remember. This is not the same swift as you know it. It looks the same, but it’s way more limited in what you can do. You can’t just load libraries like Alamofire and use it. But, let’s say string manipulation is mostly the same. Most of the code produced for embedded swift - is compileable on mac, but won’t work the other way around"
-    }
   }
 
 //-------------------------------------------------------------------- ADMIN PANEL --------------------------------------------------------------------

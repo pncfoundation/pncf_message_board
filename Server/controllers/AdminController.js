@@ -57,7 +57,7 @@ module.exports = {
                 return;
             }
 
-            res.status(200).send({ message: "Authentication Successful." });
+            res.status(200).send({ message: "Authentication Successful.", superUser: admin.superUser, name: admin.name });
         } catch (error) {
             handleError(res, error);
         }
