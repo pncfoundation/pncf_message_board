@@ -3,10 +3,9 @@ const { handleError } = require('./errorHandler');
 
 module.exports = {
     async create(req, res) {
-        console.log(req.body);
         try {
             await Log.create(req.body);
-            res.status(200).send("Logged");
+            res.status(200).send({message: "Logged"});
         } catch(error) {
             handleError(res, error);
         }

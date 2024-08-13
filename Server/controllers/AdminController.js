@@ -20,6 +20,8 @@ module.exports = {
                 return;
             }
 
+            const admin = await Admin.findByPk(id);
+
             const deleted = await Admin.destroy({
                 where: {
                     id: id
@@ -31,7 +33,10 @@ module.exports = {
                 return;
             }
 
-            res.status(200).send({ message: `Admin has been deleted` });
+            res.status(200).send({
+                message: `Admin has been deleted`,
+                admin_name: admin.name
+            });
         } catch (error) {
             handleError(res, error);
         }
@@ -57,7 +62,12 @@ module.exports = {
                 return;
             }
 
-            res.status(200).send({ message: "Authentication Successful.", superUser: admin.superUser, name: admin.name });
+            res.status(200).send({
+                message: "Authentication Successful.",
+                superUser: admin.superUser,
+                name: admin.name,
+                admin_id: admin.id
+            });
         } catch (error) {
             handleError(res, error);
         }
@@ -81,7 +91,10 @@ module.exports = {
                 superUser: true
             });
 
-            res.status(200).send({ message: `${admin.name} has been elevated to super user!` });
+            res.status(200).send({
+                message: `${admin.name} has been elevated to super user!`,
+                admin_name: admin.name
+            });
         } catch (error) {
             handleError(res, error);
         }
@@ -107,10 +120,33 @@ module.exports = {
                 superUser: false
             });
 
-            res.status(200).send({ message: `${admin.name}'s super user privileges have been revoked!` });
+            res.status(200).send({
+                message: `${admin.name}'s super user privileges have been revoked!`,
+                admin_name: admin.name
+            });
         } catch (error) {
             handleError(res, error);
         }
+    },
+
+    async addCommit(req, res) {
+      try {
+          const { id } = req.body;
+          const admin = await Admin.findByPk(id);
+
+          if(!admin) {
+              res.status(404).send();
+              return;
+          }
+
+          await admin.update({
+              commits: admin.commits + 1
+          })
+
+          res.status(200).send({ message: `${admin.name} has ${admin.commits} commits` });
+      } catch (error) {
+        handleError(res, error);
+      }
     },
 
     async getAll(req, res) {

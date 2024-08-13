@@ -14,7 +14,7 @@
     <span class="spacer"></span>
 
     <div class="hstack" id="header-control">
-      <router-link to="/pnc/admin">Admin</router-link>
+<!--      <router-link to="/pnc/admin">Admin</router-link>-->
     </div>
   </header>
 
@@ -37,10 +37,10 @@
         About
       </router-link>
 
-      <hr>
+      <hr hidden>
 
 <!--      AREA FOR PNCF PROMOS-->
-      <div id="promos">
+      <div id="promos" hidden>
 
       </div>
 

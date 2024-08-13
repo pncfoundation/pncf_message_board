@@ -146,5 +146,9 @@ ___
   - Reduce to simple rules
   - Have full guidelines on about
   - Notify at bottom more complete rules in about page
-- Implement log logging in every http request
-- Verify admin existence before calling https requests
+- Deactivate instead of delete admins
+
+
+- Find way to store promotion area settings and images
+- Remove load more button if nothing there
+- Allow admins to modify past messages

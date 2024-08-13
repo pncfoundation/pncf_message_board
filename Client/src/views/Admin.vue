@@ -43,7 +43,7 @@
 
 <!-------------------------------------------------------------------- PROMOTION AREA -------------------------------------------------------------------->
 
-    <section>
+    <section hidden>
       <div class="hstack">
         <h1>Promotion Area</h1>
         <button class="sectionToggling" @click="displayPromoArea = !displayPromoArea">
@@ -178,7 +178,7 @@
             :id="submission.id"
             :date="submission.date"
             :message="submission.message"
-            :reject ="rejectSuggestion"
+            :reject ="rejectSubmission"
             :accept ="acceptSubmission"
         ></submission>
       </div>
@@ -728,6 +728,7 @@ h2 {
   const displayAdminPanel = ref(false);
   const displayLogPanel = ref(false);
   const admin_fetched_name = ref("");
+  const admin_fetched_id = ref(-1);
 
 
 
@@ -751,6 +752,7 @@ h2 {
           login_error.value = "";
           isSuperUser.value = response.superUser;
           admin_fetched_name.value = response.name;
+          admin_fetched_id.value = response.admin_id
           isAdmin.value = true;
 
           document.getElementById('admin_username').value = "";
@@ -833,7 +835,7 @@ const previewImageThree = () => {
     }
   };
 
-  const rejectSuggestion = async (id) =>  {
+  const rejectSubmission = async (id) =>  {
     try {
       await requests.deleteRequest({id: id}, `/submissions/delete`)
         .then((response) => {
@@ -844,7 +846,9 @@ const previewImageThree = () => {
           setTimeout(() => {
             submissionSuccess.value = "";
           }, 5000);
-        })
+
+          new_log(`Rejected a submission`);
+        });
     } catch (error) {
       submissionError.value = error.message
     }
@@ -864,6 +868,8 @@ const previewImageThree = () => {
           setTimeout(() => {
             submissionSuccess.value = "";
           }, 5000);
+
+          new_log(`Accepted a submission`);
         });
     } catch (error) {
       submissionError.value = error.message
@@ -921,14 +927,6 @@ const previewImageThree = () => {
       return;
     }
 
-    /*
-    console.log({
-      admin_name: admin_name.value,
-      admin_username: admin_username.value,
-      admin_password: admin_password.value,
-      admin_super: admin_super.value,
-    })
-    */
     const admin = {
       name: admin_name.value,
       username: admin_username.value,
@@ -939,19 +937,23 @@ const previewImageThree = () => {
     try {
       await requests.postRequest(admin, "/admins/create")
           .then((response) => {
+            const temp_name = admin_name.value;
+
             admin_name.value = "";
             admin_username.value = "";
             admin_password.value = "";
             admin_super.value = false;
             admin_errorMessage.value = "";
-
             admin_success_message.value = response.message;
 
             fetchAdmins();
 
             setTimeout(() => {
               admin_success_message.value = "";
-            }, 5000)
+            }, 5000);
+
+            const log_str = `Created a new admin: ${temp_name}`;
+            new_log(log_str);
           })
     } catch (error) {
       console.log(error)
@@ -968,6 +970,8 @@ const previewImageThree = () => {
           .then((response) => {
             adminListSuccessMessage.value = response.message;
             fetchAdmins();
+
+            new_log(`Deleted an admin: ${response.admin_name}`);
           })
     } catch (error) {
       if(error.type === 401) {
@@ -998,6 +1002,8 @@ const previewImageThree = () => {
           .then((response) => {
             adminListSuccessMessage.value = response.message;
             fetchAdmins();
+
+            new_log(`Updated an admins super-user status: ${response.admin_name}`);
           })
 
       setTimeout(() => {
@@ -1074,6 +1080,25 @@ const previewImageThree = () => {
 
         logErrorMessage.value = "";
       }, 5000);
+    }
+  }
+
+  const new_log = async (action) => {
+    try {
+      const data = {
+        action: action,
+        admin: admin_fetched_name.value,
+      };
+
+      const commit_data = {
+        id: admin_fetched_id.value
+      };
+
+      await Promise.all([requests.postRequest(data, "/logs/create"), requests.putRequest(commit_data, '/admins/commit')]);
+
+    } catch (error) {
+    //   Do Nothing
+      console.log(error);
     }
   }
 

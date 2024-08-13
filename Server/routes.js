@@ -18,6 +18,7 @@ module.exports = (app) => {
     app.post('/admins/authenticate', adminController.authenticate);
     app.put('/admins/super', adminController.grantSuper);
     app.put('/admins/revoke', adminController.revokeSuper);
+    app.put('/admins/commit', adminController.addCommit);
     app.get('/admins/getAll', adminController.getAll);
     app.delete('/admins/delete', adminController.delete);
 
