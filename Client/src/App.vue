@@ -46,8 +46,17 @@
 
       <hr>
 
+      <div id="welcome">
+        <h3 class="centered orange cFont">Welcome</h3>
+
+        <p>
+          This is an anonymous message board for anyone to use.
+          Visit the about page if you would like to learn about this site or the FAQ among other useful information.
+        </p>
+      </div>
+
       <div id="board_guidelines">
-        <h3 class="centered">Board Guidelines</h3>
+        <h3 class="centered orange cFont">Board Guidelines</h3>
 
         <ul>
           <li>
@@ -77,7 +86,7 @@
   </div>
 
   <footer>
-    <h1>Foot</h1>
+    <p>Copyright © 2024. Peaches and Cream Foundation</p>
   </footer>
 </template>
 
@@ -125,6 +134,10 @@
   background: navy;
 }
 
+#welcome p {
+  font-size: 1rem;
+}
+
 #board_guidelines {
   padding: 0 1rem;
 }
@@ -141,17 +154,8 @@
   flex-direction: row;
 }
 
-/*------------------------------------------------------- Footer -------------------------------------------------------*/
-footer {
-  width: 100dvw;
-  background-color: var(--background-secondary);
-  /*background-image: url("@/assets/photos/art_supplies.jpeg");
-  background-size: cover;
-  background-position: center;
-  background-position-y: -8rem;
-  background-repeat: no-repeat;*/
-  padding: 1rem;
-  height: 7rem;
-}
-
+/*------------------------------------------------------ New Message ------------------------------------------------------*/
 </style>
+
+<script setup>
+</script>

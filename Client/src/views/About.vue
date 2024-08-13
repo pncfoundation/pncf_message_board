@@ -29,7 +29,7 @@
 
 <!------------------------------------------------------------------------ ABOUT LINKS (same section) ------------------------------------------------------------------------>
       <div class="hstack" id="about_links_wrapper">
-        <a class="about_links" href="https://www.google.com/" target="_blank">
+        <a class="about_links" href="https://www.peachesandcream.org/" target="_blank">
           Official Website
 
           <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 72 72">

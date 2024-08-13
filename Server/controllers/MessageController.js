@@ -5,7 +5,21 @@ module.exports = {
     // Create a new message using json body
     async createMessage(req, res) {
         try {
-            await Message.create(req.body);
+            const { id } = req.body;
+            const possibleExist = await Message.findByPk(id);
+
+            if(!possibleExist) {
+                await Message.create(req.body);
+            } else {
+                const newData = {
+                    date: req.body.date,
+                    message: req.body.message
+                };
+
+                await Message.create(newData);
+            }
+
+
             res.status(200).send({ message: "Message added to message board." });
         } catch (error) {
             handleError(res, error);

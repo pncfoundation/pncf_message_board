@@ -150,5 +150,6 @@ ___
 
 
 - Find way to store promotion area settings and images
-- Remove load more button if nothing there
 - Allow admins to modify past messages
+- When accepting message, check if id already exists and remove current so no overlap
+- allow super admins to see usernames and passwords

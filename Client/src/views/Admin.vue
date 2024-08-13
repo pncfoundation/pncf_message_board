@@ -857,6 +857,7 @@ const previewImageThree = () => {
   const acceptSubmission = async (id, date, message) =>  {
     try {
       const data = {
+        id: id,
         date: date,
         message: message
       };

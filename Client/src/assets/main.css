@@ -37,9 +37,9 @@
 }
 
 /* Setting classes to use theme colors (text and background) */
-.green { color: var(--theme); }
+.green { color: var(--theme); fill: var(--theme) }
 .green-b { background: var(--theme); }
-.orange { color: var(--theme-secondary); }
+.orange { color: var(--theme-secondary); fill: var(--theme-secondary) }
 .orange-b { background: var(--theme-secondary); }
 
 

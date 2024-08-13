@@ -6,7 +6,7 @@
 <!--      <p v-if="upvotes" class="orange">{{ upvotes }} upvotes</p>-->
     </div>
 
-    <textarea class="message_content" id="area" @input="adjustTextareaHeight">{{ message }}</textarea>
+    <textarea class="message_content" id="area" @input="adjustTextareaHeight" v-model="messageRef"></textarea>
 
     <div class="hstack message_ui">
       <svg class="message_svg" id="reject" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" @click="reject">
@@ -48,7 +48,7 @@ Feel free to implement these whenever.
 </template>
 
 <script setup>
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 
 const props = defineProps({
   id: {
@@ -80,6 +80,8 @@ const props = defineProps({
   //   default: 0
   // }
 })
+
+const messageRef = ref("");
 
 // Returns how long ago the post was made. Ex: 3 minutes ago
 const timeAgo = (dateString) => {
@@ -126,12 +128,13 @@ const reject = async () => {
 
 const accept = async () => {
   const date = new Date(props.date);
-  await props.accept(props.id, date, props.message);
+  await props.accept(props.id, date, messageRef.value);
 }
 
 // This is the function that is called immediately after the page loads.
 onMounted(() => {
   adjustTextareaHeight();
+  messageRef.value = props.message;
 })
 </script>
 
