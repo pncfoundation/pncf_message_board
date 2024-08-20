@@ -154,3 +154,4 @@ ___
 - When accepting message, check if id already exists and remove current so no overlap
 - allow super admins to see usernames and passwords
 - Remove promotion functionality for now
+- If no submission, say so
