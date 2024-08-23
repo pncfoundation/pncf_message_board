@@ -87,6 +87,10 @@
 
   <footer>
     <p>Copyright © 2024. Peaches and Cream Foundation</p>
+
+    <span class="spacer"></span>
+
+    <p>This website was created by web development intern <a class="orange" href="https://sanchezalvarez.dev/" target="_blank">Sergio</a>.</p>
   </footer>
 </template>
 

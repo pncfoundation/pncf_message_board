@@ -139,6 +139,50 @@
     </section>
 
     <br>
+<!-------------------------------------------------------------------- Website Settings -------------------------------------------------------------------->
+    <section>
+      <div class="hstack">
+        <h1>Website Settings</h1>
+        <button class="sectionToggling" @click="displaySettings = !displaySettings; loadSettings();">
+          <svg v-if="displaySettings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+            <path d="M39,4H11c-3.86,0-7,3.14-7,7v28c0,3.86,3.14,7,7,7h28c3.86,0,7-3.14,7-7V11C46,7.14,42.86,4,39,4z M39.7,19.71L25,33.31l-14.7-13.6c-0.4-0.39-0.4-1.02-0.01-1.41c0.39-0.4,1.02-0.4,1.41-0.01L25,30.49l13.3-12.2c0.39-0.39,1.02-0.39,1.41,0.01C40.1,18.69,40.1,19.32,39.7,19.71z"/>
+          </svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+            <path d="M4,11v28c0,3.86,3.14,7,7,7h28c3.86,0,7-3.14,7-7V11c0-3.86-3.14-7-7-7H11C7.14,4,4,7.14,4,11z M19.71,10.3L33.31,25l-13.6,14.7c-0.39,0.4-1.02,0.4-1.41,0.01c-0.4-0.39-0.4-1.02-0.01-1.41L30.49,25l-12.2-13.3c-0.39-0.39-0.39-1.02,0.01-1.41C18.69,9.9,19.32,9.9,19.71,10.3z"/>
+          </svg>
+        </button>
+      </div>
+
+      <p class="centered">
+        Control <span class="orange">settings</span> for the website. These settings are <span class="orange">global</span> and thus,
+        every user will be affected by these settings.
+      </p>
+
+      <p v-if="settingsSuccess" class="success_message">{{ settingsSuccess }}</p>
+      <p v-if="settingsError" class="error_message">{{ settingsError }}</p>
+
+      <h2 v-if="displaySettings">Message Board</h2>
+      <div class="vstack" id="website_settings" v-if="displaySettings">
+        <div class="hstack">
+          <p>Message Board Status</p>:
+
+          <button id="message_board_activity_control" @click="toggleMessageBoard">
+            <svg v-if="loadingMessageBoardStatus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+              <path d="M 9 7 C 4.0414839 7 0 11.041484 0 16 L 0 17 L 0.203125 17 C 0.7247386 21.467568 4.3958921 25 9 25 L 23 25 C 27.604108 25 31.275261 21.467568 31.796875 17 L 32 17 L 32 16 C 32 11.041484 27.958516 7 23 7 L 9 7 z M 16 9 C 19.877838 9 23 12.122162 23 16 C 23 19.877838 19.877838 23 16 23 C 12.122162 23 9 19.877838 9 16 C 9 12.122162 12.122162 9 16 9 z M 21.642578 9 L 23 9 C 26.877484 9 30 12.122516 30 16 C 30 19.877484 26.877484 23 23 23 L 21.642578 23 C 23.687339 21.348117 25 18.824258 25 16 C 25 13.175742 23.687339 10.651883 21.642578 9 z"/>
+            </svg>
+            <svg v-else-if="messageBoardStatus" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 32 32">
+              <path d="M 9 7 C 4.039063 7 0 11.035156 0 16 C 0 20.964844 4.039063 25 9 25 L 23 25 C 27.957031 25 32 20.957031 32 16 C 32 11.042969 27.957031 7 23 7 Z M 23 9 C 26.878906 9 30 12.121094 30 16 C 30 19.878906 26.878906 23 23 23 C 19.121094 23 16 19.878906 16 16 C 16 12.121094 19.121094 9 23 9 Z"/>
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 32 32">
+              <path d="M 9 7 C 8.378906 7 7.773438 7.066406 7.1875 7.1875 C 6.894531 7.246094 6.59375 7.320313 6.3125 7.40625 C 3.792969 8.203125 1.742188 10.085938 0.71875 12.5 C 0.605469 12.769531 0.492188 13.03125 0.40625 13.3125 C 0.136719 14.164063 0 15.058594 0 16 C 0 16.929688 0.144531 17.8125 0.40625 18.65625 C 0.410156 18.664063 0.402344 18.679688 0.40625 18.6875 C 1.203125 21.207031 3.085938 23.257813 5.5 24.28125 C 5.769531 24.394531 6.03125 24.507813 6.3125 24.59375 C 7.164063 24.863281 8.058594 25 9 25 L 23 25 C 27.957031 25 32 20.957031 32 16 C 32 11.042969 27.957031 7 23 7 Z M 9 9 C 12.878906 9 16 12.121094 16 16 C 16 19.878906 12.878906 23 9 23 C 5.121094 23 2 19.878906 2 16 C 2 15.757813 2.007813 15.515625 2.03125 15.28125 C 2.386719 11.742188 5.363281 9 9 9 Z M 14.625 9 L 23 9 C 26.878906 9 30 12.121094 30 16 C 30 19.878906 26.878906 23 23 23 L 14.625 23 C 16.675781 21.347656 18 18.828125 18 16 C 18 13.171875 16.675781 10.652344 14.625 9 Z"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <br>
 <!-------------------------------------------------------------------- MESSAGE PANEL -------------------------------------------------------------------->
     <section>
       <div class="hstack">
@@ -611,7 +655,14 @@ h2 {
 #promotion_controls:has(#promotion_grid_choices):has(input#grid_four:checked) ~ #media_preview_controls #media_grid_preview img:nth-child(3) {
   grid-column: span 2;
 }
-
+/*---------------------------------------------------------------- SETTINGS CONTROL PANEL ----------------------------------------------------------------*/
+#message_board_activity_control {
+  width: 2.5rem;
+  height: 1.5rem;
+  border: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
 
 /*---------------------------------------------------------------- MESSAGE CONTROL PANEL ----------------------------------------------------------------*/
 
@@ -722,6 +773,7 @@ h2 {
   import {onMounted, ref} from "vue";
 //-------------------------------------------------------------------- TOGGLING DISPLAY AREAS --------------------------------------------------------------------
   const displayPromoArea = ref(false);
+  const displaySettings = ref(false);
   const displaySubmissions = ref(false);
   const isAdmin = ref(false); // Check user is an admin before calling functions
   const isSuperUser = ref(false);
@@ -815,6 +867,50 @@ const previewImageThree = () => {
     reader.readAsDataURL(image);
   }
 }
+//-------------------------------------------------------------------- SETTINGS CONTROL --------------------------------------------------------------------+
+  const settingsSuccess = ref("");
+  const settingsError = ref("");
+  const messageBoardStatus = ref(false);
+  const loadingMessageBoardStatus = ref(false);
+
+  const loadSettings = async() => {
+    if(!loadingMessageBoardStatus.value) {
+      try {
+        await requests.getRequest('/settings/getCurrent')
+            .then((response) => {
+              // Assign setting refs here
+              messageBoardStatus.value = response.messageBoardActive;
+            })
+      } catch (error) {
+        settingsError.value = error.message;
+      }
+    }
+  };
+
+  const toggleMessageBoard = async() => {
+    if(!loadingMessageBoardStatus.value) {
+      loadingMessageBoardStatus.value = true;
+      try {
+        const data = {
+          boardSetting: !messageBoardStatus.value
+        }
+
+        await requests.putRequest(data, '/settings/updateBoardStatus')
+            .then((response) => {
+              settingsSuccess.value = response.message;
+              loadingMessageBoardStatus.value = false;
+
+              setTimeout(() => {
+                settingsSuccess.value = "";
+              }, 5000)
+            })
+
+        await loadSettings();
+      } catch (error) {
+        settingsError.value = error.message;
+      }
+    }
+  }
 
 
 //-------------------------------------------------------------------- SUBMISSION CONTROL --------------------------------------------------------------------+

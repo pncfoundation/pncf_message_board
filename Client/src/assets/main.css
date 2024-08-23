@@ -45,7 +45,7 @@
 
 /*Custom Font h1 and h2 already have it, but this is for use elsewhere*/
 .cFont {
-    font-family: "Love Ya Like A Sister", cursive;
+    font-family: Tahoma, serif;
     font-weight: 500;
     font-style: normal;
 }

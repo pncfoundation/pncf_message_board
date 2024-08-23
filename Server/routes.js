@@ -7,6 +7,7 @@ const adminController = require('./controllers/AdminController');
 const logController = require('./controllers/LogController');
 const messageController = require('./controllers/MessageController');
 const submissionController = require('./controllers/SubmissionController');
+const settingsController = require('./controllers/SettingsController');
 
 module.exports = (app) => {
     // Test Route
@@ -37,4 +38,8 @@ module.exports = (app) => {
     app.post('/submissions/create', submissionController.createSubmission);
     app.delete('/submissions/delete', submissionController.deleteSubmission);
     app.get('/submissions/getAll', submissionController.getAllSubmissions);
+
+    app.post('/settings/create', settingsController.createSetting);
+    app.get('/settings/getCurrent', settingsController.getSettings);
+    app.put('/settings/updateBoardStatus', settingsController.updateBoardStatus);
 }

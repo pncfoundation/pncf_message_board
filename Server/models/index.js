@@ -4,12 +4,14 @@ const Admin = require('./Admin');
 const Log = require('./Log');
 const Message = require('./Message');
 const Submission = require('./Submission');
+const Settings = require('./Settings');
 
 const index = {
     Admin,
     Log,
     Message,
-    Submission
+    Submission,
+    Settings
 }
 
 index.sequelize = Sequelize;
