@@ -147,6 +147,8 @@ ___
   - Have full guidelines on about
   - Notify at bottom more complete rules in about page
 - Deactivate instead of delete admins
+- Announcements?
+- Highlight messages sent by admins?
 
 
 - Find way to store promotion area settings and images
@@ -154,3 +156,4 @@ ___
 - When accepting message, check if id already exists and remove current so no overlap
 - allow super admins to see usernames and passwords
 - If no submission, say so
+- Add main site to top left of header

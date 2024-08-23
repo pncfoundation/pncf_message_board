@@ -47,7 +47,7 @@
         </a>
 
 
-        <a class="about_links" href="https://www.google.com/" target="_blank">
+        <a class="about_links" href="https://www.google.com/" target="_blank" v-if="false">
           Shop Merchandise
 
           <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 72 72">

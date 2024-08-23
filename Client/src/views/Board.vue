@@ -6,7 +6,7 @@
 
     <p>Messages will be reviewed by our moderators upon submission to keep the site safe.</p>
 
-    <div id="message_submission">
+    <div id="message_submission" v-if="!submissionsDisabled">
       <textarea id="submission_area" @input="adjustTextareaHeight" v-model="message_content"></textarea>
       <button id="submission_button" @click="submitMessage">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
@@ -14,6 +14,10 @@
         </svg>
       </button>
     </div>
+    <div class="vstack" v-else>
+      <h2>Messages are disabled temporarily. Sorry for the inconvenience.</h2>
+    </div>
+
 
     <h2 class="orange">Messages</h2>
     <p v-if="messagesError" class="error_message">{{ messagesError }}</p>
@@ -90,6 +94,18 @@
   const messagesError = ref("");
   const message_content = ref("");
   const message_sent = ref(false);
+  const submissionsDisabled = ref(true);
+
+  const loadSettings = async () => {
+    try {
+      await requests.getRequest("/settings/getCurrent")
+        .then((response) => {
+            submissionsDisabled.value = !response.messageBoardActive;
+        })
+    } catch (error) {
+      messagesError.value = error.message;
+    }
+  }
 
   const submitMessage = async () => {
     if(message_content.value.trim().length > 0){
@@ -158,6 +174,7 @@
   }
 
   onMounted(() => {
+    loadSettings();
     getMessagePages()
         .then(() => {
           loadMessages(1)
