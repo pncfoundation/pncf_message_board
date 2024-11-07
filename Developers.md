@@ -88,6 +88,11 @@ pick up this change automatically restart the website.
 
 ## Back-End | Server Directory
 
+I suggest having MySQLWorkbench to host the database locally. This way you can 
+use an empty of the database rather than the real one. Experiment and test out 
+your code/functions in there, then once it is ready, you can integrate it into 
+the official database.
+
 Navigate to the `Server` directory in your terminal if not already there.
 
     cd Server

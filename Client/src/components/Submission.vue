@@ -133,8 +133,11 @@ const accept = async () => {
 
 // This is the function that is called immediately after the page loads.
 onMounted(() => {
-  adjustTextareaHeight();
   messageRef.value = props.message;
+
+  setTimeout(() => {
+    adjustTextareaHeight();
+  }, 100);
 })
 </script>
 

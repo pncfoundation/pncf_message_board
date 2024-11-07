@@ -17,7 +17,7 @@ const Submission = localMessageBoard.define("Submission",
         },
 
         message: {
-            type: DataTypes.TEXT,
+            type: DataTypes.TEXT("medium"),
             allowNull: false
         }
     },

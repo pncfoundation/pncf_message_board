@@ -17,7 +17,7 @@ const Message = localMessageBoard.define("Message",
         },
 
         message: {
-            type: DataTypes.TEXT,
+            type: DataTypes.TEXT("medium"),
             allowNull: false
         }
     },

@@ -98,6 +98,7 @@
     display: block;
     text-align: left;
     font-size: 1.1rem;
+    white-space: pre-line;
   }
 
   /*

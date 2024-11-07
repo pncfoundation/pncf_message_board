@@ -4,9 +4,7 @@
 
 Two color modes: light and dark
 
-- Light mode is the default
-
-Needs accent colors of orange and green
+- Based on user browser preference
 
 Get and use custom font "Love Ya Like a Sister"
 
@@ -33,7 +31,7 @@ Get and use custom font "Love Ya Like a Sister"
 - Contains message board for everyone to see
 - Fetches the 10 most recent messages from database
 - User can load more when they scroll down
-- Site checks for new messages every 2 minutes
+- Site checks for new messages every 2 minutes (on hold - uses resources)
 
 ## Submission Page
 - Dedicated submission page for messages
@@ -99,11 +97,6 @@ the admin page.
   - user - reference to admin
 
 ## Actions
-
-Ensure functions do not have same name
-
-For get groups (maybe add a get count function to get pages)
-
 Come back to fix notFound conditionals
 
 - Admin
@@ -135,14 +128,11 @@ ___
 
 - Allow moderators to pin or highlight messages
   - Either for set time or permanently on a seperate page
-- Allow Users to upVote
-  - Probably not since anyone can upvote unlimited times
 - Threads and replies?
   - Messages on the message board may have a numerical indicator for # of replies
   - Indicator opens a page or dialog with that messages thread
 - Notification system
 - Board Guidelines
-  - Make Orange
   - Reduce to simple rules
   - Have full guidelines on about
   - Notify at bottom more complete rules in about page

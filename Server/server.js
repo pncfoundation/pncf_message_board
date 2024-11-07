@@ -40,7 +40,7 @@ app.use(function(req, res, next) {
 /*
     Vue.js creates a single page application (SPA). This means that the whole web application runs off a single HTML file. Instead, VueJS
     uses JavaScript to render the content on the page. This dramatically reduces the lag between fetching and loading a new html file.
-    This also means we need our server to only the one index.html file for whatever link the user requests.
+    This also means we need our server to serve only the one index.html file for whatever link the user requests.
 */
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
