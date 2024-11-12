@@ -12,7 +12,7 @@ const settingsController = require('./controllers/SettingsController');
 module.exports = (app) => {
     // Test Route
     app.get('/test', (req, res) => {
-        res.send("Hello!");
+        res.send("Test for PNCF message board server.");
     });
 
     app.post('/admins/create', adminController.create);

@@ -23,7 +23,7 @@ const httpErrors = {
     internalServerError: (message) => {
         return {
             status: 500,
-            message: message || 'Internal Server Error',
+            message: message || 'Something went wrong',
         };
     },
 };
