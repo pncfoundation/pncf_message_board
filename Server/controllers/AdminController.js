@@ -160,6 +160,7 @@ module.exports = {
             console.log("Sent");
         } catch (error) {
             console.log("Error Occurred");
+            console.error("Database Error: ", error);
             handleError(res, error);
         }
     }
