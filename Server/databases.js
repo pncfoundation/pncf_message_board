@@ -76,7 +76,7 @@ const dbFunctions = {
 
     async initMessageBoard() {
         try {
-            await MessageBoard.authenticate();
+            await MessageBoard.sync();
             console.log("Connected to message board database");
         } catch (error) {
             console.error("--------------- Unable to connect to message board database ---------------\n", error);

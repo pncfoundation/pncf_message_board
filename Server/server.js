@@ -52,7 +52,7 @@ async function main() {
         await dbFunctions.initMessageBoard();
 
         app.listen(8081, () => {
-            console.log(`Server is running at http://localhost:8081`);
+            console.log(`Server Started`);
         });
     } catch (error) {
         console.log("----------- Unable to connect to databases -----------\n, error");
