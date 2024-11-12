@@ -38,7 +38,7 @@
         </a>
 
 
-        <a class="about_links" href="https://www.google.com/" target="_blank">
+        <a class="about_links" href="https://peachesandcream.org/mental-wellness" target="_blank">
           Mental Wellness Program
 
           <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 72 72">
