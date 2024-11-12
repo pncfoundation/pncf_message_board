@@ -76,11 +76,10 @@ const dbFunctions = {
 
     async initMessageBoard() {
         try {
-            console.log(`Username: ${messageBoardUsername}`);
-            console.log(`Password: ${messageBoardPassword}`);
-            await MessageBoard.sync()
-                .then(() => console.log("Connected to message board database"))
+            await MessageBoard.authenticate()
+                .then(() => console.log("Databased Authenticated"))
                 .catch(error => console.log("Unable to connect:", error));
+            console.log("Finished authentication process");
         } catch (error) {
             console.error("--------------- Unable to connect to message board database ---------------\n", error);
             // Change this error handler
