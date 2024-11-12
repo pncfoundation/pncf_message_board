@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
-const { localMessageBoard } = require("../databases");
+const { MessageBoard } = require("../databases");
 
-const Admin = localMessageBoard.define("Admin",
+const Admin = MessageBoard.define("Admin",
     {
         id: {
             type: DataTypes.INTEGER,

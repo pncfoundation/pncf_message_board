@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
-const { localMessageBoard } = require("../databases");
+const { MessageBoard } = require("../databases");
 
-const Submission = localMessageBoard.define("Submission",
+const Submission = MessageBoard.define("Submission",
     {
         id: {
             type: DataTypes.INTEGER,
