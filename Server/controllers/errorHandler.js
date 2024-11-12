@@ -41,6 +41,7 @@ const handleError = (res, error) => {
             res.status(404).send();
             break;
         case 'internalServerError':
+            console.log("Defined 500");
             res.status(500).send();
             break;
         case 400:
@@ -53,6 +54,7 @@ const handleError = (res, error) => {
             res.status(404).send();
             break;
         case 500:
+            console.log("Simple 500");
             res.status(500).send();
             break;
         default:

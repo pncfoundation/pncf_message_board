@@ -151,11 +151,15 @@ module.exports = {
 
     async getAll(req, res) {
         try {
+            console.log("Attempting");
             const admins = await Admin.findAll({
                 attributes: { exclude: ['username', 'password'] }
             });
+            console.log("Retrieved");
             res.status(200).send({ adminList: admins });
+            console.log("Sent");
         } catch (error) {
+            console.log("Error Occurred");
             handleError(res, error);
         }
     }
