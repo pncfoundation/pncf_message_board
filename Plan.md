@@ -147,3 +147,4 @@ ___
 - allow super admins to see usernames and passwords
 - If no submission, say so
 - Add main site to top left of header
+- Fix databases to easily choose which one to use

@@ -82,7 +82,6 @@ const dbFunctions = {
             await MessageBoard.sync()
                 .then(() => console.log("Database Synced"))
                 .catch(error => console.log("Unable to sync:", error));
-            console.log("Finished authentication process");
         } catch (error) {
             console.error("--------------- Unable to connect to message board database ---------------\n", error);
             // Change this error handler
