@@ -1,5 +1,5 @@
 // Define server url running on digital ocean. http://localhost:8081/ is for development on local machines
-const server = "https://165.227.79.16:8081/server";
+const server = "https://supportyourmental.com/server";
 
 /*
     Here we define the available functions our front end can use to make http requests.
