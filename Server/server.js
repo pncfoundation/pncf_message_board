@@ -49,7 +49,7 @@ app.get("*", (req, res) => {
 // Main function to connect databases and start server
 async function main() {
     try {
-        await dbFunctions.initLocalMessageBoard();
+        await dbFunctions.initMessageBoard();
 
         app.listen(8081, () => {
             console.log(`Server is running at http://localhost:8081`);

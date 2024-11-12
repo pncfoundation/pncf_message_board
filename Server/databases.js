@@ -40,16 +40,17 @@ const localMessageBoard = new Sequelize('messageBoard', localMessageBoardUsernam
     This is for the actual database.
     Create the database connection object
 */
-const MessageBoard = new Sequelize('messageBoard', messageBoardUsername, messageBoardPassword, {
-    host: 'localhost',
+const MessageBoard = new Sequelize('PNCF_Board', messageBoardUsername, messageBoardPassword, {
+    host: 'pncf-wellness-board-db-do-user-17268507-0.m.db.ondigitalocean.com',
     dialect: 'mysql',
     dialectOptions: {
         ssl: {
             require: true,
-            rejectUnauthorized: true,
+            rejectUnauthorized: false,
         }
     },
-    logging: false
+    logging: false,
+    port: 25060
 });
 // ----------------------------------------------------------------------------------------------------------
 /*
@@ -92,5 +93,6 @@ const dbFunctions = {
 */
 module.exports = {
     localMessageBoard,
+    MessageBoard,
     dbFunctions
 }
