@@ -43,7 +43,7 @@ app.use(function(req, res, next) {
     This also means we need our server to serve only the one index.html file for whatever link the user requests.
 */
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+    res.sendFile(path.join(__dirname, '../Client/dist', 'index.html'));
 });
 
 // Main function to connect databases and start server
