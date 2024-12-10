@@ -5,7 +5,7 @@
       <h1>About the Message Board</h1>
 
       <p>
-        This message board is an outreach newsletter (need to confirm. Will it be outreach or more a safe space to share?) that aims to provide a
+        This message board is a safe sharing space that aims to provide a
         safe and supportive platform for students to share their thoughts or stories. Inspired by VoiceBoard, an online newsletter platform
         founded by a Peaches & Cream intern, this message board strives to create an environment where anyone can communicate personal experiences
         and receive the help that they need.
