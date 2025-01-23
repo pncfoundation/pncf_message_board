@@ -14,7 +14,7 @@
     <span class="spacer"></span>
 
     <div class="hstack" id="header-control">
-<!--      <router-link to="/pnc/admin">Admin</router-link>-->
+      <router-link to="/pnc/admin">Admin Panel</router-link>
     </div>
   </header>
 
@@ -121,6 +121,20 @@
 
 .router-link-exact-active .nav_svg path {
   fill: var(--theme); /* Active color */
+}
+
+#header-control > a {
+  font-size: 1.25rem;
+}
+
+#header-control a.router-link-exact-active {
+  color: var(--theme);
+}
+
+#header-control a.router-link-exact-active::before {
+  content: "• ";
+  font-weight: bold;
+  color: var(--theme-secondary);
 }
 
 .nav_router {

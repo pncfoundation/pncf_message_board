@@ -148,7 +148,7 @@
         <br><br>
 
         By accessing and reading submissions on the Peaches and Cream Foundation message board, you acknowledge and agree to this disclaimer and the
-        Terms of Use governing the <router-link class="fake_link" to="/pnc/admin">website</router-link>.
+        Terms of Use governing the website.
 
         <br><br>
 

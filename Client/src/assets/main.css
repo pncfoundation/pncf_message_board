@@ -30,12 +30,6 @@
     text-align: center;
 }
 
-.fake_link {
-    text-decoration: none;
-    color: var(--text);
-    cursor: unset;
-}
-
 /* Setting classes to use theme colors (text and background) */
 .green { color: var(--theme); fill: var(--theme) }
 .green-b { background: var(--theme); }
